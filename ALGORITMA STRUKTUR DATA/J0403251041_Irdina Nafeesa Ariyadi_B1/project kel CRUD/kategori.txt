@@ -1,6 +1,7 @@
 HP,Samsung,Galaxy S
 HP,Samsung,Galaxy A
 HP,Samsung,Galaxy Z
+HP,Samsung,Galaxy a55
 HP,Xiaomi,Redmi Note
 HP,Xiaomi,Poco X
 HP,Xiaomi,Xiaomi 14
@@ -13,7 +14,6 @@ HP,Vivo,X Series
 HP,Apple,iPhone Pro
 HP,Apple,iPhone Air
 HP,Apple,iPhone SE
-
 Laptop,Asus,ROG
 Laptop,Asus,TUF
 Laptop,Asus,Vivobook

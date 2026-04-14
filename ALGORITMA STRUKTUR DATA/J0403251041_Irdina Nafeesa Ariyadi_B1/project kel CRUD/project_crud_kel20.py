@@ -60,6 +60,42 @@ for kategori, daftar_merk in buka_data.items():
         for series in daftar_series:
             print(f"   │    • {series}")
 
+
+#menambahkan data baru
+def tambah_data(buka_data):
+    print("\n=== TAMBAH DATA ===")
+
+    kategori = input("Masukkan kategori (HP/Laptop): ").strip()
+    merk = input("Masukkan merk: ").strip()
+    series = input("Masukkan series: ").strip()
+
+    # validasi kategori
+    if kategori not in buka_data:
+        print("Kategori belum ada, akan dibuat baru.")
+
+    # buat kategori jika belum ada
+    if kategori not in buka_data:
+        buka_data[kategori] = {}
+
+    # buat merk jika belum ada
+    if merk not in buka_data[kategori]:
+        buka_data[kategori][merk] = []
+
+    # cek duplikasi series
+    if series not in buka_data[kategori][merk]:
+        buka_data[kategori][merk].append(series)
+        print("Data berhasil ditambahkan!")
+    else:
+        print("Series sudah ada!")
+
+#menyimpan data
+def simpan_data(nama_file, data):
+    with open(nama_file, "w", encoding="utf-8") as file:
+        for kategori, merk_dict in data.items():
+            for merk, series_list in merk_dict.items():
+                for series in series_list:
+                    file.write(f"{kategori},{merk},{series}\n")
+
 # ==========================================================
 # MAIN PROGRAM
 # ==========================================================
@@ -71,7 +107,8 @@ def main():
     while True:
         print("\n=== MENU KATEGORI TOKO ONLINE ===")
         print("1. Lihat Kategori Produk")
-        print("2. Keluar")
+        print("2. Tambah Data")
+        print("3. Keluar")
 
         pilihan = input("Pilih menu (1-5): ").strip()
 
@@ -122,6 +159,13 @@ def main():
                     print("Pilihan submenu tidak valid")
 
         elif pilihan == "2":
+            tambah_data(buka_data)
+            simpan_data(nama_file, buka_data)
+            print("\n=== DATA BERHASIL DI TAMBAHKAN ===")
+
+
+            
+        elif pilihan == "3":
             print("Program selesai")
             break
 
