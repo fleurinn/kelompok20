@@ -1,0 +1,31 @@
+HP,Samsung,Galaxy S
+HP,Samsung,Galaxy A
+HP,Samsung,Galaxy Z
+HP,Xiaomi,Redmi Note
+HP,Xiaomi,Poco X
+HP,Xiaomi,Xiaomi 14
+HP,Oppo,Reno
+HP,Oppo,Find X
+HP,Oppo,A Series
+HP,Vivo,V Series
+HP,Vivo,Y Series
+HP,Vivo,X Series
+HP,Apple,iPhone Pro
+HP,Apple,iPhone Air
+HP,Apple,iPhone SE
+
+Laptop,Asus,ROG
+Laptop,Asus,TUF
+Laptop,Asus,Vivobook
+Laptop,Acer,Aspire
+Laptop,Acer,Nitro
+Laptop,Acer,Predator
+Laptop,Lenovo,ThinkPad
+Laptop,Lenovo,Legion
+Laptop,Lenovo,IdeaPad
+Laptop,HP,Pavilion
+Laptop,HP,Victus
+Laptop,HP,OMEN
+Laptop,Dell,Inspiron
+Laptop,Dell,XPS
+Laptop,Dell,Alienware
