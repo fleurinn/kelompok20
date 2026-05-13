@@ -1,4 +1,4 @@
-HP,Samsung,Galaxy A
+HP,Samsung,jijijjiji
 HP,Samsung,Galaxy Z
 HP,Samsung,Galaxy a55
 HP,Xiaomi,Redmi Note
@@ -13,6 +13,7 @@ HP,Vivo,X Series
 HP,Apple,iPhone Pro
 HP,Apple,iPhone Air
 HP,Apple,iPhone SE
+HP,Google,Baru
 Laptop,Asus,ROG
 Laptop,Asus,TUF
 Laptop,Asus,Vivobook
