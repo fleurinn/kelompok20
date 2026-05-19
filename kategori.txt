@@ -1,32 +1,32 @@
-HP,Samsung,Galaxy Z Fold
-HP,Samsung,Galaxy Z
-HP,Samsung,Galaxy a55
-HP,Xiaomi,Redmi Note
-HP,Xiaomi,Poco X
-HP,Xiaomi,Xiaomi 14
-HP,Oppo,Reno
-HP,Oppo,Find X
-HP,Oppo,A Series
-HP,Vivo,V Series
-HP,Vivo,Y Series
-HP,Vivo,X Series
-HP,Apple,iPhone Pro
-HP,Apple,iPhone Air
-HP,Apple,iPhone SE
-HP,Google,Baru
-Laptop,Acer,Aspire
-Laptop,Acer,Nitro
-Laptop,Acer,Predator
-Laptop,Lenovo,ThinkPad
-Laptop,Lenovo,Legion
-Laptop,Lenovo,IdeaPad
-Laptop,HP,Pavilion
-Laptop,HP,Victus
-Laptop,HP,OMEN
-Laptop,Dell,Inspiron
-Laptop,Dell,XPS
-Laptop,Dell,Alienware
-Laptop,4,ROG
-Laptop,4,TUF
-Laptop,4,Vivobook
-PC,Pixel,GT 20
+HP,Samsung,Galaxy Z,12999000,HP flagship lipat Z Fold6 dengan layar besar buat multitasking dan produktivitas
+HP,Samsung,Galaxy a55,4999000,Hp mid-range terbaik dengan layar jernih cocok buat konten kreator muda
+HP,Samsung,galaxy a56,20000,bagus
+HP,Xiaomi,Redmi Note,3299000,Hp harga terbaik di kelasnya kamera resolusi tinggi buat foto harian
+HP,Xiaomi,Poco X,4199000,Hp gaming mid-range paling powerful cocok buat mobile gamer
+HP,Xiaomi,Xiaomi 14,9999000,Flagship compact Xiaomi dengan kamera Leica size pas di tangan
+HP,Oppo,Reno,5499000,Hp selfie specialist dengan AI beautify desain premium elegan
+HP,Oppo,Find X,13999000,Flagship Oppo dengan zoom telescope 6x king of photography
+HP,Oppo,A Series,2499000,Hp entry-level tahan banting cocok untuk pelajar dan pengguna casual
+HP,Vivo,V Series,5999000,Hp portrait profesional dengan lampu Aura hasil foto studio
+HP,Vivo,Y Series,2999000,Hp baterai monster kuat buat streaming dan main game seharian
+HP,Vivo,X Series,11999000,Hp vivo flagship dengan fast charging 120W isi daya 0-100 dalam 25 menit
+HP,Apple,iPhone Pro,15499000,iPhone premium dengan titanium frame dan Apple Intelligence AI tercanggih
+HP,Apple,iPhone Air,10499000,iPhone baru dengan design tipis dan Camera Control button resmi
+HP,Apple,iPhone SE,5499000,iPhone termurah Apple masuk ekosistem iOS dengan harga terjangkau
+HP,Google,Baru,9999000,Google Pixel dengan AI tercanggih Magic Eraser dan 7 tahun update
+Laptop,Asus,ROG,42999000,Gaming laptop paling buas Indonesia cocok esports dan content creation
+Laptop,Asus,TUF,18999000,Gaming laptop Anti-rusak dengan harga paling worth it di kelasnya
+Laptop,Asus,Vivobook,16499000,Laptop kreator dengan layar OLED murah cocok desain dan edit video
+Laptop,Acer,Aspire,8499000,Laptop office eco-friendly ringan dan baterai tahan lama
+Laptop,Acer,Nitro,14999000,Gaming laptop budget terbaik dual fan pendingin optimal
+Laptop,Acer,Predator,38999000,Predator flagship dengan AI overclock dan liquid metal cooling
+Laptop,Lenovo,ThinkPad,24999000,Bisnis laptop terbaik dunia keyboard nyaman dan durabilitas MIL-STD
+Laptop,Lenovo,Legion,32999000,Gaming laptop esports dengan AI tuning dan pendingin tercanggih
+Laptop,Lenovo,IdeaPad,10499000,Laptop all-rounder buat mahasiswa dan kerja kantoran
+Laptop,HP,Pavilion,13999000,Laptop stylish dengan audio Bang&Olufsen ringan cuma 1.4kg
+Laptop,HP,Victus,15499000,Gaming entry-level HP dengan sistem pendingin Omen Tempest
+Laptop,HP,OMEN,27999000,Gaming HP tertinggi dengan RGB keyboard dan vapor chamber
+Laptop,Dell,Inspiron,14499000,Laptop hybrid kerja dan gaming ringan harga value terbaik
+Laptop,Dell,XPS,32999000,Ultrabook premium Dell dengan bezel tipis dan CNC aluminum
+Laptop,Dell,Alienware,55999000,Gaming laptop tertinggi dengan Cherry MX mechanical keyboard
+Google,Pixel,GT 20,11999000,Google Pixel flagship dengan AI Gemini dan kamera zoom 5x
