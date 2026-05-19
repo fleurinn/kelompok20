@@ -1,66 +1,75 @@
 # ===========================================================
-# Studi Kasus: Sistem Kategori Produk Toko Online (File .txt)
+# Studi Kasus: Sistem Kategori Produk Toko Online
 # Kelompok 20
 # ===========================================================
 
-# 1. FILE HANDLING & DICTIONARY
-nama_file = "kategori.txt"  # file berisi kategori produk
+nama_file = "kategori.txt"
 
 def muat_data_kategori(nama_file):
-    """
-    Fungsi membaca kategori.txt lalu menyimpannya
-    ke dictionary bertingkat
-    Format file: kategori,merk,series
-    """
+    database_kategori = {}
 
-    database_kategori = {}  # dictionary utama
-
-    # buka file kategori.txt mode baca
     with open(nama_file, "r", encoding="utf-8") as file:
-
-        # baca file per baris
         for baris in file:
-            baris = baris.strip()  # hapus enter/newline
-            parts = baris.split(",")  # pisahkan berdasarkan koma
-
-            # validasi harus 3 bagian
-            if len(parts) != 3:
+            baris = baris.strip()
+            
+            if not baris or baris.startswith('#'):
+                continue
+            
+            # split maks 5 bagian
+            parts = baris.split(",", 4)
+            
+            if len(parts) < 5:
                 continue
 
-            kategori, merk, series = parts
+            kategori = parts[0].strip()
+            merk = parts[1].strip()
+            series = parts[2].strip()
+            harga = int(parts[3].strip())
+            deskripsi = parts[4].strip()
 
-            # jika kategori belum ada, buat dictionary baru
             if kategori not in database_kategori:
                 database_kategori[kategori] = {}
-
-            # jika merk belum ada, buat list baru
             if merk not in database_kategori[kategori]:
                 database_kategori[kategori][merk] = []
-
-            # tambahkan series ke merk
-            database_kategori[kategori][merk].append(series)
+            
+            database_kategori[kategori][merk].append({
+                'series': series,
+                'harga': harga,
+                'deskripsi': deskripsi
+            })
 
     return database_kategori
 
-# memanggil fungsi dan menyimpan hasilnya
+def format_rupiah(angka):
+    return f"Rp {angka:,}".replace(",", ".")
+
+def tampilkan_data(buka_data):
+    print("\n" + "="*60)
+    print("DATA KATEGORI PRODUK TOKO ONLINE")
+    print("="*60)
+    print(f"Total Kategori: {len(buka_data)}")
+    
+    total_produk = 0
+    
+    for kategori, daftar_merk in buka_data.items():
+        print(f"\n[{kategori.upper()}]")
+        
+        for merk, daftar_produk in daftar_merk.items():
+            print(f"  [{merk}]")
+            
+            for produk in daftar_produk:
+                print(f"    * {produk['series']}")
+                print(f"      Harga: {format_rupiah(produk['harga'])}")
+                print(f"      Deskripsi: {produk['deskripsi']}")
+                total_produk += 1
+    
+    print(f"\n[Total Produk: {total_produk}]")
+
+# ==========================================================
+# MAIN PROGRAM
+# ==========================================================
 buka_data = muat_data_kategori(nama_file)
-
-# menampilkan jumlah kategori utama
-print("Jumlah Kategori Terbaca:", len(buka_data))
-
-# output lebih rapi dan terstruktur
-print("\n=== Data Kategori Produk ===")
-
-for kategori, daftar_merk in buka_data.items():
-    print(f"\n• {kategori}")
-
-    for merk, daftar_series in daftar_merk.items():
-        print(f"   ├── {merk}")
-
-        for series in daftar_series:
-            print(f"   │    • {series}")
-
-
+tampilkan_data(buka_data)
 #menambahkan data baru
 def tambah_data(buka_data):
     print("\n=== TAMBAH DATA ===")
@@ -268,7 +277,6 @@ def main():
         pilihan = input("Pilih menu (1-5): ").strip()
 
         if pilihan == "1":
-
             while True:
                 print("\n--- SUB MENU KATEGORI ---")
                 print("1. Pilih Kategori")
@@ -283,7 +291,11 @@ def main():
                     for i in range(len(daftar_kategori)):
                         print(f"{i+1}. {daftar_kategori[i]}")
 
-                    pilih_kategori = int(input("Pilih kategori: ")) - 1
+                    try:
+                        pilih_kategori = int(input("Pilih kategori: ")) - 1
+                    except:
+                        print("Input harus angka!")
+                        continue
 
                     if 0 <= pilih_kategori < len(daftar_kategori):
                         kategori_terpilih = daftar_kategori[pilih_kategori]
@@ -294,14 +306,21 @@ def main():
                         for i in range(len(daftar_merk)):
                             print(f"{i+1}. {daftar_merk[i]}")
 
-                        pilih_merk = int(input("Pilih merk: ")) - 1
+                        try:
+                            pilih_merk = int(input("Pilih merk: ")) - 1
+                        except:
+                            print("Input harus angka!")
+                            continue
 
                         if 0 <= pilih_merk < len(daftar_merk):
                             merk_terpilih = daftar_merk[pilih_merk]
+                            produk_list = buka_data[kategori_terpilih][merk_terpilih]
 
                             print(f"\nSeries {merk_terpilih}:")
-                            for series in buka_data[kategori_terpilih][merk_terpilih]:
-                                print(f"• {series}")
+                            for produk in produk_list:
+                                print(f"  - {produk['series']}")
+                                print(f"    Harga: {format_rupiah(produk['harga'])}")
+                                print(f"    Deskripsi: {produk['deskripsi']}")
                         else:
                             print("Pilihan merk tidak valid")
                     else:
@@ -309,7 +328,6 @@ def main():
 
                 elif sub_pilihan == "2":
                     break
-
                 else:
                     print("Pilihan submenu tidak valid")
 
@@ -331,7 +349,6 @@ def main():
         elif pilihan == "5":
             print("Program selesai")
             break
-                
         else:
             print("Pilihan tidak valid")
 
