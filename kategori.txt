@@ -1,4 +1,4 @@
-HP,Samsung,jijijjiji
+HP,Samsung,Galaxy Z Fold
 HP,Samsung,Galaxy Z
 HP,Samsung,Galaxy a55
 HP,Xiaomi,Redmi Note
@@ -14,9 +14,6 @@ HP,Apple,iPhone Pro
 HP,Apple,iPhone Air
 HP,Apple,iPhone SE
 HP,Google,Baru
-Laptop,Asus,ROG
-Laptop,Asus,TUF
-Laptop,Asus,Vivobook
 Laptop,Acer,Aspire
 Laptop,Acer,Nitro
 Laptop,Acer,Predator
@@ -29,4 +26,7 @@ Laptop,HP,OMEN
 Laptop,Dell,Inspiron
 Laptop,Dell,XPS
 Laptop,Dell,Alienware
-Google,Pixel,GT 20
+Laptop,4,ROG
+Laptop,4,TUF
+Laptop,4,Vivobook
+PC,Pixel,GT 20
