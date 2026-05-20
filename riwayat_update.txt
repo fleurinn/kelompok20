@@ -1,16 +1,32 @@
 ==================================================
-Tanggal Update : 20-05-2026 13:29:45
-Kategori       : Laptop
-Merk            : Dell
+Tanggal Update : 20-05-2026 13:35:10
+Kategori       : Google
+Merk            : Pixel
 
 --- DATA LAMA ---
-Series    : Inspiron
-Harga     : 14499000
-Deskripsi : Laptop hybrid kerja dan gaming ringan harga value terbaik
+Series    : GT 20
+Harga     : 11999000
+Deskripsi : Google Pixel flagship dengan AI Gemini dan kamera zoom 5x
 
 --- DATA BARU ---
-Series    : Inspiron
-Harga     : 14500000
-Deskripsi : Laptop hybrid kerja dan gaming ringan harga value terbaik
+Series    : 12000000
+Harga     : 11999000
+Deskripsi : Google Pixel flagship dengan AI Gemini dan kamera zoom 5x
+==================================================
+
+==================================================
+Tanggal Update : 20-05-2026 13:39:31
+Kategori       : Google
+Merk            : Pixel
+
+--- DATA LAMA ---
+Series    : 12000000
+Harga     : 11999000
+Deskripsi : Google Pixel flagship dengan AI Gemini dan kamera zoom 5x
+
+--- DATA BARU ---
+Series    : GT 20
+Harga     : 12000000
+Deskripsi : Google Pixel flagship dengan AI Gemini dan kamera zoom 5x
 ==================================================
 

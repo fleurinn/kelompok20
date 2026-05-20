@@ -30,4 +30,3 @@ Laptop,HP,OMEN,27999000,Gaming HP tertinggi dengan RGB keyboard dan vapor chambe
 Laptop,Dell,Inspiron,14500000,Laptop hybrid kerja dan gaming ringan harga value terbaik
 Laptop,Dell,XPS,32999000,Ultrabook premium Dell dengan bezel tipis dan CNC aluminum
 Laptop,Dell,Alienware,55999000,Gaming laptop tertinggi dengan Cherry MX mechanical keyboard
-Google,Pixel,GT 20,12000000,Google Pixel flagship dengan AI Gemini dan kamera zoom 5x
