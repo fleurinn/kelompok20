@@ -309,10 +309,10 @@ def tambah_data(buka_data):
     print(f"Deskripsi : {deskripsi}")
 
     if kategori_baru:
-        print("➜ Kategori baru berhasil dibuat")
+        print("Kategori baru berhasil dibuat")
 
     if merk_baru:
-        print("➜ Merk baru berhasil dibuat")
+        print("Merk baru berhasil dibuat")
 
     print("===================================")
 
@@ -611,13 +611,29 @@ def search_data(buka_data):
     print("1. Cari Kategori")
     print("2. Cari Merk")
     print("3. Cari Series")
+    print("4. Kembali")
 
-    pilihan = input("Pilih pencarian (1-3): ").strip()
+    pilihan = input("Pilih pencarian (1-4): ").strip()
+
+    # ======================================================
+    # VALIDASI PILIHAN
+    # ======================================================
+
+    if pilihan == "4":
+        return
+
+    if pilihan not in ["1", "2", "3"]:
+        print("\nPilihan harus angka 1-4!")
+        return
+
+    # ======================================================
+    # INPUT KEYWORD
+    # ======================================================
 
     keyword = input("Masukkan keyword: ").strip().lower()
 
     if keyword == "":
-        print("\n Keyword tidak boleh kosong!")
+        print("\nKeyword tidak boleh kosong!")
         return
 
     ditemukan = False
@@ -724,11 +740,22 @@ def sort_data(buka_data):
     print("\n=== SORT DATA ===")
     print("1. Sort Harga Termurah")
     print("2. Sort Harga Termahal")
+    print("3. Kembali")
 
-    pilihan = input("Pilih sorting (1-2): ").strip()
+    pilihan = input("Pilih sorting (1-3): ").strip()
+
+    # ======================================================
+    # VALIDASI PILIHAN
+    # ======================================================
+
+    if pilihan == "3":
+        return
+
+    if pilihan not in ["1", "2"]:
+        print("\nPilihan harus angka 1-3!")
+        return
 
     semua_produk = []
-
     # ======================================================
     # GABUNGKAN SEMUA PRODUK
     # ======================================================
@@ -1000,7 +1027,7 @@ def main():
                     print("Pilihan submenu tidak valid")
 
         # ==================================================
-        # TAMBAH DATA (PUNYA KAMU)
+        # TAMBAH DATA 
         # ==================================================
         elif pilihan == "2":
 
