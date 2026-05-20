@@ -1,6 +1,7 @@
 HP,Samsung,Galaxy Z,12999000,HP flagship lipat Z Fold6 dengan layar besar buat multitasking dan produktivitas
 HP,Samsung,Galaxy a55,4999000,Hp mid-range terbaik dengan layar jernih cocok buat konten kreator muda
 HP,Samsung,galaxy a56,20000,bagus
+HP,Samsung,galaaxy a56,40000,bagus
 HP,Xiaomi,Redmi Note,3299000,Hp harga terbaik di kelasnya kamera resolusi tinggi buat foto harian
 HP,Xiaomi,Poco X,4199000,Hp gaming mid-range paling powerful cocok buat mobile gamer
 HP,Xiaomi,Xiaomi 14,9999000,Flagship compact Xiaomi dengan kamera Leica size pas di tangan
@@ -26,7 +27,7 @@ Laptop,Lenovo,IdeaPad,10499000,Laptop all-rounder buat mahasiswa dan kerja kanto
 Laptop,HP,Pavilion,13999000,Laptop stylish dengan audio Bang&Olufsen ringan cuma 1.4kg
 Laptop,HP,Victus,15499000,Gaming entry-level HP dengan sistem pendingin Omen Tempest
 Laptop,HP,OMEN,27999000,Gaming HP tertinggi dengan RGB keyboard dan vapor chamber
-Laptop,Dell,Inspiron,14499000,Laptop hybrid kerja dan gaming ringan harga value terbaik
+Laptop,Dell,Inspiron,14500000,Laptop hybrid kerja dan gaming ringan harga value terbaik
 Laptop,Dell,XPS,32999000,Ultrabook premium Dell dengan bezel tipis dan CNC aluminum
 Laptop,Dell,Alienware,55999000,Gaming laptop tertinggi dengan Cherry MX mechanical keyboard
-Google,Pixel,GT 20,11999000,Google Pixel flagship dengan AI Gemini dan kamera zoom 5x
+Google,Pixel,GT 20,12000000,Google Pixel flagship dengan AI Gemini dan kamera zoom 5x

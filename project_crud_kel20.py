@@ -6,16 +6,12 @@
 # ===========================================================
 # FILE HANDLING & DICTIONARY
 # ===========================================================
-
 nama_file = "kategori.txt"
-
-
 class Node:
     def __init__(self, data):
         self.data = data
         self.next = None
         self.prev = None
-
 
 class DoubleCircularLinkedList:
     def __init__(self):
@@ -44,6 +40,48 @@ class DoubleCircularLinkedList:
             new_node.next = self.head
             self.head.prev = new_node
 
+    def __iter__(self):
+
+        if self.head is None:
+            return
+
+        current = self.head
+
+        while True:
+
+            yield current.data
+            current = current.next
+
+            if current == self.head:
+                break
+
+    def __len__(self):
+
+        if self.head is None:
+            return 0
+
+        count = 0
+        current = self.head
+
+        while True:
+
+            count += 1
+            current = current.next
+
+            if current == self.head:
+                break
+
+        return count
+
+    def __getitem__(self, index):
+
+        node = self.get_node_at_index(index)
+
+        if node is None:
+            raise IndexError("Index out of range")
+
+        return node.data
+
     def to_list(self):
 
         hasil = []
@@ -62,7 +100,7 @@ class DoubleCircularLinkedList:
                 break
 
         return hasil
-
+    
     def delete_at_index(self, index):
 
         if self.head is None:
@@ -94,84 +132,191 @@ class DoubleCircularLinkedList:
             if current == self.head:
                 break
 
-    def update_at_index(self, index, data_baru):
-
+    def get_node_at_index(self, index):
+        if self.head is None:
+            return None
         current = self.head
         count = 0
-
         while True:
-
             if count == index:
-                current.data = data_baru
-                return
-
+                return current
             current = current.next
             count += 1
-
             if current == self.head:
                 break
+        return None
+
+
+# ===========================================================
+# STACK RIWAYAT UPDATE
+# ===========================================================
+from datetime import datetime
+
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+    def push(self, data):
+        self.items.append(data)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.items.pop()
+        return None
+
+    def peek(self):
+        if not self.is_empty():
+            return self.items[-1]
+        return None
+
+    def get_all(self):
+        return self.items
+
+# buat stack global
+riwayat_update = Stack()
+# ===========================================================
+# SIMPAN RIWAYAT UPDATE KE STACK
+# ===========================================================
+def simpan_riwayat_update(
+    kategori,
+    merk,
+    data_lama,
+    data_baru
+):
+
+    waktu_update = datetime.now().strftime(
+        "%d-%m-%Y %H:%M:%S"
+    )
+
+    histori = {
+        "tanggal": waktu_update,
+        "kategori": kategori,
+        "merk": merk,
+        "data_lama": data_lama.copy(),
+        "data_baru": data_baru.copy()
+    }
+
+    riwayat_update.push(histori)
+# ===========================================================
+# SIMPAN RIWAYAT KE FILE TXT
+# ===========================================================
+def simpan_riwayat_txt(
+    nama_file="riwayat_update.txt"
+):
+
+    with open(
+        nama_file,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        for data in riwayat_update.get_all():
+
+            file.write(
+                "=" * 50 + "\n"
+            )
+
+            file.write(
+                f"Tanggal Update : "
+                f"{data['tanggal']}\n"
+            )
+
+            file.write(
+                f"Kategori       : "
+                f"{data['kategori']}\n"
+            )
+
+            file.write(
+                f"Merk            : "
+                f"{data['merk']}\n"
+            )
+
+            file.write("\n--- DATA LAMA ---\n")
+
+            file.write(
+                f"Series    : "
+                f"{data['data_lama']['series']}\n"
+            )
+
+            file.write(
+                f"Harga     : "
+                f"{data['data_lama']['harga']}\n"
+            )
+
+            file.write(
+                f"Deskripsi : "
+                f"{data['data_lama']['deskripsi']}\n"
+            )
+
+            file.write("\n--- DATA BARU ---\n")
+
+            file.write(
+                f"Series    : "
+                f"{data['data_baru']['series']}\n"
+            )
+
+            file.write(
+                f"Harga     : "
+                f"{data['data_baru']['harga']}\n"
+            )
+
+            file.write(
+                f"Deskripsi : "
+                f"{data['data_baru']['deskripsi']}\n"
+            )
+
+            file.write(
+                "=" * 50 + "\n\n"
+            )
+
+
 
 
 # ===========================================================
 # LOAD DATA
 # ===========================================================
-
 def muat_data_kategori(nama_file):
 
     database_kategori = {}
 
     try:
-
         with open(nama_file, "r", encoding="utf-8") as file:
-
             for baris in file:
-
                 baris = baris.strip()
-
                 if not baris or baris.startswith("#"):
                     continue
-
                 parts = baris.split(",", 4)
-
                 if len(parts) < 5:
                     continue
-
                 kategori = parts[0].strip()
                 merk = parts[1].strip()
                 series = parts[2].strip()
                 harga = int(parts[3].strip())
                 deskripsi = parts[4].strip()
-
                 if kategori not in database_kategori:
                     database_kategori[kategori] = {}
-
                 if merk not in database_kategori[kategori]:
-                    database_kategori[kategori][merk] = []
-
+                    database_kategori[kategori][merk] = DoubleCircularLinkedList()
                 database_kategori[kategori][merk].append({
                     "series": series,
                     "harga": harga,
                     "deskripsi": deskripsi
                 })
-
     except FileNotFoundError:
         print("File belum ada, akan dibuat saat penyimpanan")
 
     return database_kategori
-
-
 # ===========================================================
 # FORMAT RUPIAH
 # ===========================================================
-
 def format_rupiah(angka):
     return f"Rp {angka:,}".replace(",", ".")
-
-
 # ===========================================================
 # TAMPILKAN DATA
 # ===========================================================
-
 def tampilkan_data(buka_data):
 
     print("\n" + "=" * 60)
@@ -197,12 +342,9 @@ def tampilkan_data(buka_data):
                 total_produk += 1
 
     print(f"\n[Total Produk: {total_produk}]")
-
-
 # ===========================================================
 # CASE INSENSITIVE
 # ===========================================================
-
 def cari_key_case_insensitive(data_dict, key_input):
 
     for key in data_dict.keys():
@@ -211,20 +353,17 @@ def cari_key_case_insensitive(data_dict, key_input):
             return key
 
     return None
-
-
 # ===========================================================
 # TAMBAH DATA
 # ===========================================================
-
 def tambah_data(buka_data):
 
     print("\n=== TAMBAH DATA ===")
 
-    kategori = input("Masukkan kategori : ").strip()
+    kategori = input("Masukkan kategori (HP/Laptop): ").strip()
     merk = input("Masukkan merk      : ").strip()
     series = input("Masukkan series    : ").strip()
-    harga = input("Masukkan harga     : ").strip()
+    harga = input("Masukkan harga (input angka)  : ").strip()
     deskripsi = input("Masukkan deskripsi : ").strip()
 
     # ======================================================
@@ -270,7 +409,7 @@ def tambah_data(buka_data):
 
     if merk_key is None:
 
-        buka_data[kategori_key][merk] = []
+        buka_data[kategori_key][merk] = DoubleCircularLinkedList()
         merk_key = merk
         merk_baru = True
 
@@ -309,18 +448,15 @@ def tambah_data(buka_data):
     print(f"Deskripsi : {deskripsi}")
 
     if kategori_baru:
-        print("➜ Kategori baru berhasil dibuat")
+        print("Kategori baru berhasil dibuat")
 
     if merk_baru:
-        print("➜ Merk baru berhasil dibuat")
+        print("Merk baru berhasil dibuat")
 
     print("===================================")
-
-
 # ===========================================================
 # SIMPAN DATA
 # ===========================================================
-
 def simpan_data(nama_file, data):
 
     with open(nama_file, "w", encoding="utf-8") as file:
@@ -338,87 +474,476 @@ def simpan_data(nama_file, data):
                         f"{produk['harga']},"
                         f"{produk['deskripsi']}\n"
                     )
-
-
 # ===========================================================
 # UPDATE DATA
 # ===========================================================
-
 def update_data(buka_data):
 
     print("\n=== UPDATE DATA ===")
 
     daftar_kategori = list(buka_data.keys())
 
+    if len(daftar_kategori) == 0:
+        print("Data kosong!")
+        return False
+
+    # ======================================================
+    # PILIH KATEGORI
+    # ======================================================
     for i in range(len(daftar_kategori)):
         print(f"{i+1}. {daftar_kategori[i]}")
 
     try:
-        pilih_kategori = int(input("Pilih kategori: ")) - 1
+        pilih_kategori = int(
+            input("Pilih kategori: ")
+        ) - 1
 
     except ValueError:
         print("Input harus angka!")
-        return
+        return False
 
-    if 0 <= pilih_kategori < len(daftar_kategori):
+    if not (
+        0 <= pilih_kategori
+        < len(daftar_kategori)
+    ):
+        print("Pilihan kategori tidak valid")
+        return False
 
-        kategori = daftar_kategori[pilih_kategori]
+    kategori_terpilih = daftar_kategori[
+        pilih_kategori
+    ]
 
-        daftar_merk = list(buka_data[kategori].keys())
+    while True:
+
+        # ==================================================
+        # TAMPILKAN MERK
+        # ==================================================
+        print("\n0. Update Nama Kategori")
+
+        daftar_merk = list(
+            buka_data[
+                kategori_terpilih
+            ].keys()
+        )
 
         for i in range(len(daftar_merk)):
-            print(f"{i+1}. {daftar_merk[i]}")
+            print(
+                f"{i+1}. "
+                f"{daftar_merk[i]}"
+            )
+
+        nomor_kembali = (
+            len(daftar_merk) + 1
+        )
+
+        print(
+            f"\n{nomor_kembali}. "
+            "Kembali"
+        )
 
         try:
-            pilih_merk = int(input("Pilih merk: ")) - 1
+            pilih_merk = int(
+                input(
+                    "Pilih merk "
+                    "(atau 0 untuk "
+                    "update kategori): "
+                )
+            )
 
         except ValueError:
             print("Input harus angka!")
-            return
+            continue
 
-        if 0 <= pilih_merk < len(daftar_merk):
+        # ==================================================
+        # KEMBALI
+        # ==================================================
+        if pilih_merk == nomor_kembali:
+            break
 
-            merk = daftar_merk[pilih_merk]
+        # ==================================================
+        # UPDATE KATEGORI
+        # ==================================================
+        if pilih_merk == 0:
 
-            daftar_produk = buka_data[kategori][merk]
+            kategori_baru = input(
+                "Masukkan nama "
+                "kategori baru "
+                "(Enter = tidak "
+                "diubah): "
+            ).strip()
 
-            for i in range(len(daftar_produk)):
+            if kategori_baru == "":
+                print(
+                    "Kategori tidak "
+                    "diubah"
+                )
+                continue
 
-                print(f"{i+1}. {daftar_produk[i]['series']}")
+            # VALIDASI DUPLIKAT
+            if (
+                kategori_baru.lower()
+                != kategori_terpilih.lower()
+            ):
+
+                kategori_sudah_ada = (
+                    cari_key_case_insensitive(
+                        buka_data,
+                        kategori_baru
+                    )
+                )
+
+                if (
+                    kategori_sudah_ada
+                    is not None
+                ):
+                    print(
+                        "Kategori "
+                        "sudah ada!"
+                    )
+                    continue
+
+            buka_data[
+                kategori_baru
+            ] = buka_data.pop(
+                kategori_terpilih
+            )
+
+            kategori_terpilih = (
+                kategori_baru
+            )
+
+            print(
+                "Kategori berhasil "
+                "diupdate!"
+            )
+
+            return True
+
+        pilih_merk -= 1
+
+        # ==================================================
+        # VALIDASI MERK
+        # ==================================================
+        if not (
+            0 <= pilih_merk
+            < len(daftar_merk)
+        ):
+            print(
+                "Pilihan merk "
+                "tidak valid"
+            )
+            continue
+
+        merk_terpilih = (
+            daftar_merk[
+                pilih_merk
+            ]
+        )
+
+        while True:
+
+            daftar_produk = buka_data[
+                kategori_terpilih
+            ][merk_terpilih]
+
+            produk_list = (
+                daftar_produk
+                .to_list()
+            )
+
+            # ==========================================
+            # CEK PRODUK KOSONG
+            # ==========================================
+            if len(produk_list) == 0:
+
+                print(
+                    "\nMerk ini "
+                    "tidak punya "
+                    "series."
+                )
+
+                break
+
+            # ==========================================
+            # TAMPILKAN SERIES
+            # ==========================================
+            print(
+                "\n0. Update "
+                "Nama Merk"
+            )
+
+            for i in range(
+                len(produk_list)
+            ):
+
+                print(
+                    f"{i+1}. "
+                    f"{produk_list[i]['series']}"
+                )
+
+            nomor_kembali = (
+                len(produk_list)
+                + 1
+            )
+
+            print(
+                f"\n{nomor_kembali}. "
+                "Kembali"
+            )
 
             try:
-                pilih_series = int(input("Pilih series: ")) - 1
+                pilih_series = int(
+                    input(
+                        "Pilih series "
+                        "(atau 0 untuk "
+                        "update merk): "
+                    )
+                )
 
             except ValueError:
-                print("Input harus angka!")
-                return
+                print(
+                    "Input harus "
+                    "angka!"
+                )
+                continue
 
-            if 0 <= pilih_series < len(daftar_produk):
+            # ==========================================
+            # KEMBALI
+            # ==========================================
+            if (
+                pilih_series
+                == nomor_kembali
+            ):
+                break
 
-                series_baru = input("Masukkan series baru: ").strip()
+            # ==========================================
+            # UPDATE MERK
+            # ==========================================
+            if pilih_series == 0:
 
-                if series_baru == "":
-                    print("Series tidak boleh kosong!")
-                    return
+                merk_baru = input(
+                    "Masukkan nama "
+                    "merk baru "
+                    "(Enter = tidak "
+                    "diubah): "
+                ).strip()
 
-                daftar_produk[pilih_series]['series'] = series_baru
+                if merk_baru == "":
+                    print(
+                        "Merk tidak "
+                        "diubah"
+                    )
+                    continue
 
-                print("Data berhasil diupdate")
+                # VALIDASI DUPLIKAT
+                if (
+                    merk_baru.lower()
+                    != merk_terpilih.lower()
+                ):
 
-            else:
-                print("Pilihan series tidak valid")
+                    merk_sudah_ada = (
+                        cari_key_case_insensitive(
+                            buka_data[
+                                kategori_terpilih
+                            ],
+                            merk_baru
+                        )
+                    )
 
-        else:
-            print("Pilihan merk tidak valid")
+                    if (
+                        merk_sudah_ada
+                        is not None
+                    ):
+                        print(
+                            "Merk sudah "
+                            "ada!"
+                        )
+                        continue
 
-    else:
-        print("Pilihan kategori tidak valid")
+                buka_data[
+                    kategori_terpilih
+                ][merk_baru] = (
+                    buka_data[
+                        kategori_terpilih
+                    ].pop(
+                        merk_terpilih
+                    )
+                )
 
+                merk_terpilih = (
+                    merk_baru
+                )
 
+                print(
+                    "Merk berhasil "
+                    "diupdate!"
+                )
+
+                return True
+
+            pilih_series -= 1
+
+            # ==========================================
+            # VALIDASI SERIES
+            # ==========================================
+            if not (
+                0 <= pilih_series
+                < len(produk_list)
+            ):
+                print(
+                    "Pilihan "
+                    "series tidak "
+                    "valid"
+                )
+                continue
+
+            node_produk = daftar_produk.get_node_at_index(
+                pilih_series
+            )
+
+            if node_produk is None:
+                print("Data tidak ditemukan!")
+                continue
+
+            produk = node_produk.data
+            data_lama = produk.copy()
+
+            print(
+                "\n=== DATA LAMA ==="
+            )
+
+            print(
+                f"Series            : "
+                f"{produk['series']}"
+            )
+
+            print(
+                f"Harga(tanpa titik): Rp"
+                f"{format_rupiah(produk['harga'])}"
+            )
+
+            print(
+                f"Deskripsi         : "
+                f"{produk['deskripsi']}"
+            )
+
+            print(
+                "\nKosongkan "
+                "input jika "
+                "tidak ingin "
+                "diubah"
+            )
+
+            # ======================================
+            # INPUT DATA BARU
+            # ======================================
+            series_baru = input(
+                "Series baru    : "
+            ).strip()
+
+            harga_baru = input(
+                "Harga baru     : "
+            ).strip()
+
+            deskripsi_baru = input(
+                "Deskripsi baru : "
+            ).strip()
+
+            # ======================================
+            # VALIDASI DUPLIKAT SERIES
+            # ======================================
+            if series_baru != "":
+
+                for i in range(
+                    len(produk_list)
+                ):
+
+                    if (
+                        i
+                        != pilih_series
+                        and
+                        produk_list[i][
+                            'series'
+                        ].lower()
+                        ==
+                        series_baru.lower()
+                    ):
+
+                        print(
+                            "Series "
+                            "sudah ada!"
+                        )
+
+                        return False
+
+            # ======================================
+            # UPDATE SERIES
+            # ======================================
+            if series_baru != "":
+
+                produk[
+                    'series'
+                ] = (
+                    series_baru
+                )
+
+            # ======================================
+            # UPDATE HARGA
+            # ======================================
+            if harga_baru != "":
+
+                if (
+                    harga_baru
+                    .isdigit()
+                ):
+
+                    produk[
+                        'harga'
+                    ] = int(
+                        harga_baru
+                    )
+
+                else:
+
+                    print(
+                        "Harga harus "
+                        "berupa angka!"
+                    )
+
+                    continue
+
+            # ======================================
+            # UPDATE DESKRIPSI
+            # ======================================
+            if (
+                deskripsi_baru
+                != ""
+            ):
+
+                produk[
+                    'deskripsi'
+                ] = (
+                    deskripsi_baru
+                )
+            # data baru setelah update
+            data_baru = produk.copy()
+
+            # simpan ke stack
+            simpan_riwayat_update(
+                kategori_terpilih,
+                merk_terpilih,
+                data_lama,
+                data_baru       
+            )
+
+            # simpan ke txt
+            simpan_riwayat_txt()
+            return True
+
+    return False
 # ===========================================================
 # HAPUS DATA
 # ===========================================================
-
 def hapus_data(buka_data):
 
     print("\n=== HAPUS DATA ===")
@@ -426,198 +951,423 @@ def hapus_data(buka_data):
     print("2. Hapus Merk")
     print("3. Hapus Series")
 
-    pilihan = input("Pilih jenis yang ingin dihapus (1-3): ").strip()
+    pilihan = input(
+        "Pilih jenis yang ingin dihapus (1-3): "
+    ).strip()
 
     # ======================================================
     # HAPUS KATEGORI
     # ======================================================
-
     if pilihan == "1":
 
-        daftar_kategori = list(buka_data.keys())
+        daftar_kategori = list(
+            buka_data.keys()
+        )
 
-        for i in range(len(daftar_kategori)):
-            print(f"{i+1}. {daftar_kategori[i]}")
+        if len(daftar_kategori) == 0:
+            print("Data kosong!")
+            return False
+
+        for i in range(
+            len(daftar_kategori)
+        ):
+            print(
+                f"{i+1}. "
+                f"{daftar_kategori[i]}"
+            )
 
         try:
-            pilih = int(input("Pilih kategori: ")) - 1
+            pilih = int(
+                input(
+                    "Pilih kategori: "
+                )
+            ) - 1
 
         except ValueError:
-            print("Input harus angka!")
-            return
+            print(
+                "Input harus angka!"
+            )
+            return False
 
-        if 0 <= pilih < len(daftar_kategori):
+        if 0 <= pilih < len(
+            daftar_kategori
+        ):
 
-            kategori = daftar_kategori[pilih]
+            kategori = (
+                daftar_kategori[pilih]
+            )
 
             konfirmasi = input(
-                f"Yakin hapus kategori '{kategori}'? (y/t): "
+                f"Yakin hapus kategori "
+                f"'{kategori}'? (y/t): "
             ).lower()
 
             if konfirmasi == "y":
 
                 del buka_data[kategori]
-                print("Kategori berhasil dihapus!")
+
+                print(
+                    "Kategori berhasil "
+                    "dihapus!"
+                )
+
+                return True
 
             else:
                 print("Dibatalkan")
+                return False
 
         else:
-            print("Pilihan tidak valid")
+            print(
+                "Pilihan tidak valid"
+            )
+            return False
 
     # ======================================================
     # HAPUS MERK
     # ======================================================
-
     elif pilihan == "2":
 
-        daftar_kategori = list(buka_data.keys())
+        daftar_kategori = list(
+            buka_data.keys()
+        )
 
-        for i in range(len(daftar_kategori)):
-            print(f"{i+1}. {daftar_kategori[i]}")
+        if len(daftar_kategori) == 0:
+            print("Data kosong!")
+            return False
+
+        for i in range(
+            len(daftar_kategori)
+        ):
+            print(
+                f"{i+1}. "
+                f"{daftar_kategori[i]}"
+            )
 
         try:
-            pilih_kategori = int(input("Pilih kategori: ")) - 1
+            pilih_kategori = int(
+                input(
+                    "Pilih kategori: "
+                )
+            ) - 1
 
         except ValueError:
-            print("Input harus angka!")
-            return
+            print(
+                "Input harus angka!"
+            )
+            return False
 
-        if 0 <= pilih_kategori < len(daftar_kategori):
+        if (
+            0 <= pilih_kategori
+            < len(daftar_kategori)
+        ):
 
-            kategori = daftar_kategori[pilih_kategori]
+            kategori = (
+                daftar_kategori[
+                    pilih_kategori
+                ]
+            )
 
-            daftar_merk = list(buka_data[kategori].keys())
+            daftar_merk = list(
+                buka_data[
+                    kategori
+                ].keys()
+            )
 
-            for i in range(len(daftar_merk)):
-                print(f"{i+1}. {daftar_merk[i]}")
+            if len(daftar_merk) == 0:
+                print(
+                    "Merk tidak ada!"
+                )
+                return False
+
+            for i in range(
+                len(daftar_merk)
+            ):
+                print(
+                    f"{i+1}. "
+                    f"{daftar_merk[i]}"
+                )
 
             try:
-                pilih_merk = int(input("Pilih merk: ")) - 1
+                pilih_merk = int(
+                    input(
+                        "Pilih merk: "
+                    )
+                ) - 1
 
             except ValueError:
-                print("Input harus angka!")
-                return
+                print(
+                    "Input harus angka!"
+                )
+                return False
 
-            if 0 <= pilih_merk < len(daftar_merk):
+            if (
+                0 <= pilih_merk
+                < len(daftar_merk)
+            ):
 
-                merk = daftar_merk[pilih_merk]
+                merk = daftar_merk[
+                    pilih_merk
+                ]
 
                 konfirmasi = input(
-                    f"Yakin hapus merk '{merk}'? (y/t): "
+                    f"Yakin hapus "
+                    f"merk '{merk}'? "
+                    f"(y/t): "
                 ).lower()
 
                 if konfirmasi == "y":
 
-                    del buka_data[kategori][merk]
-                    print("Merk berhasil dihapus!")
+                    del buka_data[
+                        kategori
+                    ][merk]
+
+                    print(
+                        "Merk berhasil "
+                        "dihapus!"
+                    )
+
+                    return True
 
                 else:
                     print("Dibatalkan")
+                    return False
 
             else:
-                print("Pilihan merk tidak valid")
+                print(
+                    "Pilihan merk "
+                    "tidak valid"
+                )
+                return False
 
         else:
-            print("Pilihan kategori tidak valid")
+            print(
+                "Pilihan kategori "
+                "tidak valid"
+            )
+            return False
 
     # ======================================================
     # HAPUS SERIES
     # ======================================================
-
     elif pilihan == "3":
 
-        daftar_kategori = list(buka_data.keys())
+        daftar_kategori = list(
+            buka_data.keys()
+        )
 
-        for i in range(len(daftar_kategori)):
-            print(f"{i+1}. {daftar_kategori[i]}")
+        if len(daftar_kategori) == 0:
+            print("Data kosong!")
+            return False
+
+        for i in range(
+            len(daftar_kategori)
+        ):
+            print(
+                f"{i+1}. "
+                f"{daftar_kategori[i]}"
+            )
 
         try:
-            pilih_kategori = int(input("Pilih kategori: ")) - 1
+            pilih_kategori = int(
+                input(
+                    "Pilih kategori: "
+                )
+            ) - 1
 
         except ValueError:
-            print("Input harus angka!")
-            return
+            print(
+                "Input harus angka!"
+            )
+            return False
 
-        if 0 <= pilih_kategori < len(daftar_kategori):
+        if (
+            0 <= pilih_kategori
+            < len(daftar_kategori)
+        ):
 
-            kategori = daftar_kategori[pilih_kategori]
+            kategori = (
+                daftar_kategori[
+                    pilih_kategori
+                ]
+            )
 
-            daftar_merk = list(buka_data[kategori].keys())
+            daftar_merk = list(
+                buka_data[
+                    kategori
+                ].keys()
+            )
 
-            for i in range(len(daftar_merk)):
-                print(f"{i+1}. {daftar_merk[i]}")
+            if len(daftar_merk) == 0:
+                print("Merk kosong!")
+                return False
+
+            for i in range(
+                len(daftar_merk)
+            ):
+                print(
+                    f"{i+1}. "
+                    f"{daftar_merk[i]}"
+                )
 
             try:
-                pilih_merk = int(input("Pilih merk: ")) - 1
+                pilih_merk = int(
+                    input(
+                        "Pilih merk: "
+                    )
+                ) - 1
 
             except ValueError:
-                print(" Input harus angka!")
-                return
+                print(
+                    "Input harus angka!"
+                )
+                return False
 
-            if 0 <= pilih_merk < len(daftar_merk):
+            if (
+                0 <= pilih_merk
+                < len(daftar_merk)
+            ):
 
-                merk = daftar_merk[pilih_merk]
+                merk = daftar_merk[
+                    pilih_merk
+                ]
 
-                daftar_produk = buka_data[kategori][merk]
+                daftar_produk = (
+                    buka_data[
+                        kategori
+                    ][merk]
+                )
 
-                for i in range(len(daftar_produk)):
-                    print(f"{i+1}. {daftar_produk[i]['series']}")
+                produk_list = (
+                    daftar_produk
+                    .to_list()
+                )
+
+                if len(produk_list) == 0:
+                    print(
+                        "Series kosong!"
+                    )
+                    return False
+
+                print(
+                    f"\nSeries pada "
+                    f"{merk}:"
+                )
+
+                for i in range(
+                    len(produk_list)
+                ):
+                    print(
+                        f"{i+1}. "
+                        f"{produk_list[i]['series']}"
+                    )
 
                 try:
-                    pilih_series = int(input("Pilih series: ")) - 1
+                    pilih_series = int(
+                        input(
+                            "Pilih series: "
+                        )
+                    ) - 1
 
                 except ValueError:
-                    print(" Input harus angka!")
-                    return
+                    print(
+                        "Input harus angka!"
+                    )
+                    return False
 
-                if 0 <= pilih_series < len(daftar_produk):
+                if (
+                    0 <= pilih_series
+                    < len(produk_list)
+                ):
 
-                    series = daftar_produk[pilih_series]['series']
+                    series = (
+                        produk_list[
+                            pilih_series
+                        ]['series']
+                    )
 
                     konfirmasi = input(
-                        f"Yakin hapus series '{series}'? (y/t): "
+                        f"Yakin hapus "
+                        f"series "
+                        f"'{series}'? "
+                        f"(y/t): "
                     ).lower()
 
                     if konfirmasi == "y":
 
-                        del daftar_produk[pilih_series]
+                        daftar_produk.delete_at_index(
+                            pilih_series
+                        )
 
-                        print(" Series berhasil dihapus!")
+                        print(
+                            "Series berhasil "
+                            "dihapus!"
+                        )
+
+                        return True
 
                     else:
                         print("Dibatalkan")
+                        return False
 
                 else:
-                    print(" Pilihan series tidak valid")
+                    print(
+                        "Pilihan series "
+                        "tidak valid"
+                    )
+                    return False
 
             else:
-                print(" Pilihan merk tidak valid")
+                print(
+                    "Pilihan merk "
+                    "tidak valid"
+                )
+                return False
 
         else:
-            print(" Pilihan kategori tidak valid")
+            print(
+                "Pilihan kategori "
+                "tidak valid"
+            )
+            return False
 
     else:
-        print(" Pilihan tidak valid")
-
-
+        print(
+            "Pilihan tidak valid"
+        )
+        return False
 # ===========================================================
 # SEARCH DATA
 # ===========================================================
-
 def search_data(buka_data):
 
     print("\n=== SEARCH DATA ===")
     print("1. Cari Kategori")
     print("2. Cari Merk")
     print("3. Cari Series")
+    print("4. Kembali")
 
-    pilihan = input("Pilih pencarian (1-3): ").strip()
+    pilihan = input("Pilih pencarian (1-4): ").strip()
+
+    # ======================================================
+    # VALIDASI PILIHAN
+    # ======================================================
+
+    if pilihan == "4":
+        return
+
+    if pilihan not in ["1", "2", "3"]:
+        print("\nPilihan harus angka 1-4!")
+        return
+
+    # ======================================================
+    # INPUT KEYWORD
+    # ======================================================
 
     keyword = input("Masukkan keyword: ").strip().lower()
 
     if keyword == "":
-        print("\n Keyword tidak boleh kosong!")
+        print("\nKeyword tidak boleh kosong!")
         return
 
     ditemukan = False
@@ -713,22 +1463,30 @@ def search_data(buka_data):
 
     if not ditemukan:
         print("\n Data tidak ditemukan")
-
-
 # ==========================================================
 # SORT DATA
 # ==========================================================
-
 def sort_data(buka_data):
 
     print("\n=== SORT DATA ===")
     print("1. Sort Harga Termurah")
     print("2. Sort Harga Termahal")
+    print("3. Kembali")
 
-    pilihan = input("Pilih sorting (1-2): ").strip()
+    pilihan = input("Pilih sorting (1-3): ").strip()
+
+    # ======================================================
+    # VALIDASI PILIHAN
+    # ======================================================
+
+    if pilihan == "3":
+        return
+
+    if pilihan not in ["1", "2"]:
+        print("\nPilihan harus angka 1-3!")
+        return
 
     semua_produk = []
-
     # ======================================================
     # GABUNGKAN SEMUA PRODUK
     # ======================================================
@@ -792,8 +1550,6 @@ def sort_data(buka_data):
 
     else:
         print(" Pilihan sorting tidak valid")
-
-
 # ==========================================================
 # MAIN PROGRAM
 # ==========================================================
@@ -1000,7 +1756,7 @@ def main():
                     print("Pilihan submenu tidak valid")
 
         # ==================================================
-        # TAMBAH DATA (PUNYA KAMU)
+        # TAMBAH DATA 
         # ==================================================
         elif pilihan == "2":
 
@@ -1011,21 +1767,46 @@ def main():
         # UPDATE DATA
         # ==================================================
         elif pilihan == "3":
-
-            update_data(buka_data)
-            simpan_data(nama_file, buka_data)
-
-            print("\n=== DATA BERHASIL DI UPDATE ===")
-
+            hasil_update = update_data(
+                buka_data
+            )
+            if hasil_update:
+                simpan_data(
+                    nama_file,
+                    buka_data
+                )
+                print(
+                    "\n=== DATA BERHASIL DI UPDATE ==="
+                )
+            else:
+                print(
+                    "\nTidak ada data yang diubah"
+                )
         # ==================================================
         # HAPUS DATA
         # ==================================================
         elif pilihan == "4":
 
-            hapus_data(buka_data)
-            simpan_data(nama_file, buka_data)
+            hasil_hapus = hapus_data(
+                buka_data
+            )
 
-            print("\n=== DATA BERHASIL DIHAPUS ===")
+            if hasil_hapus:
+
+                simpan_data(
+                    nama_file,
+                    buka_data
+                )
+
+                print(
+                    "\n=== DATA BERHASIL DIHAPUS ==="
+                )
+
+            else:
+
+                print(
+                    "\nTidak ada data yang dihapus"
+                )
 
         # ==================================================
         # SEARCH DATA (PUNYA KAMU)
@@ -1051,7 +1832,6 @@ def main():
 
         else:
             print("Pilihan tidak valid")
-
 
 if __name__ == "__main__":
     main()

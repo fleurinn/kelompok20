@@ -1,0 +1,16 @@
+==================================================
+Tanggal Update : 20-05-2026 13:29:45
+Kategori       : Laptop
+Merk            : Dell
+
+--- DATA LAMA ---
+Series    : Inspiron
+Harga     : 14499000
+Deskripsi : Laptop hybrid kerja dan gaming ringan harga value terbaik
+
+--- DATA BARU ---
+Series    : Inspiron
+Harga     : 14500000
+Deskripsi : Laptop hybrid kerja dan gaming ringan harga value terbaik
+==================================================
+
