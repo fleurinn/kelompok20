@@ -1708,7 +1708,8 @@ def sort_data(buka_data):
                     "merk": merk,
                     "series": produk['series'],
                     "harga": produk['harga'],
-                    "deskripsi": produk['deskripsi']
+                    "deskripsi": produk['deskripsi'],
+                    "stok": produk['stok']
                 })
 
     # ======================================================
@@ -1731,6 +1732,8 @@ def sort_data(buka_data):
             print(f"  Merk     : {produk['merk']}")
             print(f"  Harga    : {format_rupiah(produk['harga'])}")
             print(f"  Desk     : {produk['deskripsi']}")
+            print(f"  Stok     : {produk['stok']} Unit")
+            
 
     # ======================================================
     # SORT HARGA TERMAHAL
@@ -1753,6 +1756,7 @@ def sort_data(buka_data):
             print(f"  Merk     : {produk['merk']}")
             print(f"  Harga    : {format_rupiah(produk['harga'])}")
             print(f"  Desk     : {produk['deskripsi']}")
+            print(f"  Stok     : {produk['stok']} Unit")
 
     else:
         print(" Pilihan sorting tidak valid")
