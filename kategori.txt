@@ -1,7 +1,5 @@
 HP,Samsung,Galaxy Z,12999000,HP flagship lipat Z Fold6 dengan layar besar buat multitasking dan produktivitas,15
 HP,Samsung,Galaxy a55,4999000,Hp mid-range terbaik dengan layar jernih cocok buat konten kreator muda,45
-HP,Samsung,galaxy a56,20000,bagus,10
-HP,Samsung,galaaxy a56,40000,bagus,10
 HP,Xiaomi,Redmi Note,3299000,Hp harga terbaik di kelasnya kamera resolusi tinggi buat foto harian,55
 HP,Xiaomi,Poco X,4199000,Hp gaming mid-range paling powerful cocok buat mobile gamer,35
 HP,Xiaomi,Xiaomi 14,9999000,Flagship compact Xiaomi dengan kamera Leica size pas di tangan,20
