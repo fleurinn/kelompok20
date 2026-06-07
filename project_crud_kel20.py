@@ -433,12 +433,12 @@ def tambah_data(buka_data):
     print(Colors.CYAN_BOLD + "         ➕ TAMBAH DATA BARU          ".center(50) + Colors.RESET)
     print(Colors.CYAN + "═" * 50 + Colors.RESET)
 
-    kategori = input(Colors.WHITE + "\n📁 Kategori (HP/Laptop): " + Colors.RESET).strip()
-    merk = input(Colors.WHITE + "🏷️  Merk           : " + Colors.RESET).strip()
-    series = input(Colors.WHITE + "📱 Series         : " + Colors.RESET).strip()
-    harga = input(Colors.WHITE + "💰 Harga (angka)   : " + Colors.RESET).strip()
-    deskripsi = input(Colors.WHITE + "📝 Deskripsi      : " + Colors.RESET).strip()
-    stok = input(Colors.WHITE + "📦 Stok (angka)   : " + Colors.RESET).strip()
+    kategori = input(Colors.WHITE + "\n Masukkan Kategori (HP/Laptop): " + Colors.RESET).strip()
+    merk = input(Colors.WHITE + "Masukkan Merk           : " + Colors.RESET).strip()
+    series = input(Colors.WHITE + "Masukkan Series         : " + Colors.RESET).strip()
+    harga = input(Colors.WHITE + "TMasukkan Harga (angka)   : " + Colors.RESET).strip()
+    deskripsi = input(Colors.WHITE + "Masukkan Deskripsi Barang      : " + Colors.RESET).strip()
+    stok = input(Colors.WHITE + "Masukkan Jumlah Stok (angka)   : " + Colors.RESET).strip()
 
     # ======================================================
     # VALIDASI INPUT
@@ -549,6 +549,7 @@ def simpan_data(nama_file, data):
                         f"{produk['series']},"
                         f"{produk['harga']},"
                         f"{produk['deskripsi']}\n"
+                        f"{produk['stok']}\n"
                     )
 # ===========================================================
 # UPDATE DATA
@@ -1598,17 +1599,11 @@ def search_data(buka_data):
 
             if keyword in kategori.lower():
 
-                print(f"\n Kategori : {kategori}")
+                print(f"Kategori : {kategori}")
+                print("Merk     :")
 
                 for merk, daftar_produk in merk_dict.items():
-
-                    print(f"\nMerk : {merk}")
-
-                    for produk in daftar_produk:
-
-                        print(f"• {produk['series']}")
-                        print(f"  Harga : {format_rupiah(produk['harga'])}")
-                        print(f"  Desk  : {produk['deskripsi']}")
+                    print(f"          • {merk}")
 
                 ditemukan = True
 
@@ -1628,14 +1623,12 @@ def search_data(buka_data):
 
                 if keyword in merk.lower():
 
-                    print(f"\n Merk : {merk}")
+                    print(f"Merk : {merk}")
                     print(f"Kategori : {kategori}")
 
                     for produk in daftar_produk:
 
-                        print(f"\n• {produk['series']}")
-                        print(f"  Harga : {format_rupiah(produk['harga'])}")
-                        print(f"  Desk  : {produk['deskripsi']}")
+                        print(f"• {produk['series']}")
 
                     ditemukan = True
 
@@ -1666,6 +1659,7 @@ def search_data(buka_data):
                         print(f"Series    : {produk['series']}")
                         print(f"Harga     : {format_rupiah(produk['harga'])}")
                         print(f"Deskripsi : {produk['deskripsi']}")
+                        print(f"Stok      : {produk['stok']} Unit")
 
                         ditemukan = True
 
