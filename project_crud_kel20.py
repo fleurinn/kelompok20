@@ -1006,15 +1006,12 @@ def hapus_data(buka_data):
     # HAPUS KATEGORI
     # ======================================================
     if pilihan == "1":
-
         daftar_kategori = list(
             buka_data.keys()
         )
-
         if len(daftar_kategori) == 0:
             print("Data kosong!")
             return False
-
         for i in range(
             len(daftar_kategori)
         ):
@@ -1022,24 +1019,21 @@ def hapus_data(buka_data):
                 f"{i+1}. "
                 f"{daftar_kategori[i]}"
             )
-
         nomor_kembali = (
             len(daftar_kategori)
             + 1
         )
-
         print(
             f"\n{nomor_kembali}. "
             "Kembali"
         )
-
+        
         try:
             pilih = int(
                 input(
                     "Pilih kategori: "
                 )
             )
-
         except ValueError:
             print(
                 "Input harus angka!"
@@ -1048,54 +1042,41 @@ def hapus_data(buka_data):
 
         if pilih == nomor_kembali:
             return False
-
         pilih -= 1
-
         if 0 <= pilih < len(
             daftar_kategori
         ):
-
             kategori = (
                 daftar_kategori[pilih]
             )
-
             while True:
-
                 konfirmasi = input(
                     f"Yakin hapus kategori "
                     f"'{kategori}'? "
                     f"(y/t/kembali): "
                 ).lower()
-
                 if konfirmasi == "y":
-
                     del buka_data[
                         kategori
                     ]
-
                     print(
                         "Kategori berhasil "
                         "dihapus!"
                     )
-
                     return True
-
                 elif konfirmasi == "t":
                     print("Dibatalkan")
                     return False
-
                 elif (
                     konfirmasi
                     == "kembali"
                 ):
                     return False
-
                 else:
                     print(
                         "Masukkan "
                         "y/t/kembali"
                     )
-
         else:
             print(
                 "Pilihan tidak valid"
@@ -1106,15 +1087,12 @@ def hapus_data(buka_data):
     # HAPUS MERK
     # ======================================================
     elif pilihan == "2":
-
         daftar_kategori = list(
             buka_data.keys()
         )
-
         if len(daftar_kategori) == 0:
             print("Data kosong!")
             return False
-
         for i in range(
             len(daftar_kategori)
         ):
@@ -1122,12 +1100,10 @@ def hapus_data(buka_data):
                 f"{i+1}. "
                 f"{daftar_kategori[i]}"
             )
-
         nomor_kembali = (
             len(daftar_kategori)
             + 1
         )
-
         print(
             f"\n{nomor_kembali}. "
             "Kembali"
@@ -1139,44 +1115,36 @@ def hapus_data(buka_data):
                     "Pilih kategori: "
                 )
             )
-
         except ValueError:
             print(
                 "Input harus angka!"
             )
             return False
-
         if (
             pilih_kategori
             == nomor_kembali
         ):
             return False
-
         pilih_kategori -= 1
-
         if (
             0 <= pilih_kategori
             < len(daftar_kategori)
         ):
-
             kategori = (
                 daftar_kategori[
                     pilih_kategori
                 ]
             )
-
             daftar_merk = list(
                 buka_data[
                     kategori
                 ].keys()
             )
-
             if len(daftar_merk) == 0:
                 print(
                     "Merk tidak ada!"
                 )
                 return False
-
             for i in range(
                 len(daftar_merk)
             ):
@@ -1184,12 +1152,10 @@ def hapus_data(buka_data):
                     f"{i+1}. "
                     f"{daftar_merk[i]}"
                 )
-
             nomor_kembali = (
                 len(daftar_merk)
                 + 1
             )
-
             print(
                 f"\n{nomor_kembali}. "
                 "Kembali"
@@ -1201,13 +1167,11 @@ def hapus_data(buka_data):
                         "Pilih merk: "
                     )
                 )
-
             except ValueError:
                 print(
                     "Input harus angka!"
                 )
                 return False
-
             if (
                 pilih_merk
                 == nomor_kembali
@@ -1215,16 +1179,13 @@ def hapus_data(buka_data):
                 return False
 
             pilih_merk -= 1
-
             if (
                 0 <= pilih_merk
                 < len(daftar_merk)
             ):
-
                 merk = daftar_merk[
                     pilih_merk
                 ]
-
                 while True:
                     konfirmasi = input(
                         f"Yakin hapus "
@@ -1264,15 +1225,12 @@ def hapus_data(buka_data):
     # HAPUS SERIES
     # ======================================================
     elif pilihan == "3":
-
         daftar_kategori = list(
             buka_data.keys()
         )
-
         if len(daftar_kategori) == 0:
             print("Data kosong!")
             return False
-
         for i in range(
             len(daftar_kategori)
         ):
@@ -1280,12 +1238,10 @@ def hapus_data(buka_data):
                 f"{i+1}. "
                 f"{daftar_kategori[i]}"
             )
-
         nomor_kembali = (
             len(daftar_kategori)
             + 1
         )
-
         print(
             f"\n{nomor_kembali}. "
             "Kembali"
@@ -1297,7 +1253,6 @@ def hapus_data(buka_data):
                     "Pilih kategori: "
                 )
             )
-
         except ValueError:
             print(
                 "Input harus angka!"
@@ -1309,30 +1264,24 @@ def hapus_data(buka_data):
             == nomor_kembali
         ):
             return False
-
         pilih_kategori -= 1
-
         if (
             0 <= pilih_kategori
             < len(daftar_kategori)
         ):
-
             kategori = (
                 daftar_kategori[
                     pilih_kategori
                 ]
             )
-
             daftar_merk = list(
                 buka_data[
                     kategori
                 ].keys()
             )
-
             if len(daftar_merk) == 0:
                 print("Merk kosong!")
                 return False
-
             for i in range(
                 len(daftar_merk)
             ):
@@ -1340,12 +1289,10 @@ def hapus_data(buka_data):
                     f"{i+1}. "
                     f"{daftar_merk[i]}"
                 )
-
             nomor_kembali = (
                 len(daftar_merk)
                 + 1
             )
-
             print(
                 f"\n{nomor_kembali}. "
                 "Kembali"
@@ -1357,7 +1304,6 @@ def hapus_data(buka_data):
                         "Pilih merk: "
                     )
                 )
-
             except ValueError:
                 print(
                     "Input harus angka!"
@@ -1369,40 +1315,32 @@ def hapus_data(buka_data):
                 == nomor_kembali
             ):
                 return False
-
             pilih_merk -= 1
-
             if (
                 0 <= pilih_merk
                 < len(daftar_merk)
             ):
-
                 merk = daftar_merk[
                     pilih_merk
                 ]
-
                 daftar_produk = (
                     buka_data[
                         kategori
                     ][merk]
                 )
-
                 produk_list = (
                     daftar_produk
                     .to_list()
                 )
-
                 if len(produk_list) == 0:
                     print(
                         "Series kosong!"
                     )
                     return False
-
                 print(
                     f"\nSeries pada "
                     f"{merk}:"
                 )
-
                 for i in range(
                     len(produk_list)
                 ):
@@ -1410,12 +1348,10 @@ def hapus_data(buka_data):
                         f"{i+1}. "
                         f"{produk_list[i]['series']}"
                     )
-
                 nomor_kembali = (
                     len(produk_list)
                     + 1
                 )
-
                 print(
                     f"\n{nomor_kembali}. "
                     "Kembali"
@@ -1433,71 +1369,57 @@ def hapus_data(buka_data):
                         "Input harus angka!"
                     )
                     return False
-
+                
                 if (
                     pilih_series
                     == nomor_kembali
                 ):
                     return False
-
                 pilih_series -= 1
-
                 if (
                     0 <= pilih_series
                     < len(produk_list)
                 ):
-
                     series = (
                         produk_list[
                             pilih_series
                         ]['series']
                     )
-
                     while True:
-
                         konfirmasi = input(
                             f"Yakin hapus "
                             f"series "
                             f"'{series}'? "
                             f"(y/t/kembali): "
                         ).lower()
-
                         if konfirmasi == "y":
-
                             daftar_produk.delete_at_index(
                                 pilih_series
                             )
-
                             print(
                                 "Series berhasil "
                                 "dihapus!"
                             )
-
                             return True
-
                         elif konfirmasi == "t":
                             print("Dibatalkan")
                             return False
-
                         elif (
                             konfirmasi
                             == "kembali"
                         ):
                             return False
-
                         else:
                             print(
                                 "Masukkan "
                                 "y/t/kembali"
                             )
-
                 else:
                     print(
                         "Pilihan series "
                         "tidak valid"
                     )
                     return False
-
     else:
         print(
             "Pilihan tidak valid"

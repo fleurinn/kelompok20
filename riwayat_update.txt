@@ -1,7 +1,7 @@
 ==================================================
 Tanggal Update : 20-05-2026 13:35:10
 Kategori       : Google
-Merk            : Pixel
+Merk           : Pixel
 
 --- DATA LAMA ---
 Series    : GT 20
@@ -17,7 +17,7 @@ Deskripsi : Google Pixel flagship dengan AI Gemini dan kamera zoom 5x
 ==================================================
 Tanggal Update : 20-05-2026 13:39:31
 Kategori       : Google
-Merk            : Pixel
+Merk           : Pixel
 
 --- DATA LAMA ---
 Series    : 12000000
