@@ -147,6 +147,25 @@ class DoubleCircularLinkedList:
         return None
 
 # ===========================================================
+# WARNA TAMPILAN
+# ===========================================================
+class Colors:
+    RESET = '\033[0m'
+    BOLD = '\033[1m'
+    DIM = '\033[2m'
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    WHITE = '\033[97m'
+    RED_BOLD = '\033[1;91m'
+    GREEN_BOLD = '\033[1;92m'
+    YELLOW_BOLD = '\033[1;93m'
+    BLUE_BOLD = '\033[1;94m'
+    CYAN_BOLD = '\033[1;96m'
+
+# ===========================================================
 # STACK RIWAYAT UPDATE
 # ===========================================================
 from datetime import datetime
@@ -252,6 +271,11 @@ def simpan_riwayat_txt(
                 f"{data['data_lama']['deskripsi']}\n"
             )
 
+            file.write(
+                f"Stok      : "
+                f"{data['data_lama'].get('stok', 0)}\n"
+            )
+
             file.write("\n--- DATA BARU ---\n")
 
             file.write(
@@ -270,6 +294,11 @@ def simpan_riwayat_txt(
             )
 
             file.write(
+                f"Stok      : "
+                f"{data['data_baru'].get('stok', 0)}\n"
+            )
+
+            file.write(
                 "=" * 50 + "\n\n"
             )
 # ==========================================================
@@ -279,32 +308,22 @@ def lihat_riwayat_update(
     nama_file="riwayat_update.txt"
 ):
 
-    print("\n=== RIWAYAT UPDATE DATA ===")
+    print("\n" + Colors.CYAN + "=" * 60 + Colors.RESET)
+    print(Colors.CYAN_BOLD + "       📋 RIWAYAT UPDATE DATA          ".center(60) + Colors.RESET)
+    print(Colors.CYAN + "=" * 60 + Colors.RESET)
 
     try:
-        with open(
-            nama_file,
-            "r",
-            encoding="utf-8"
-        ) as file:
-
+        with open(nama_file, "r", encoding="utf-8") as file:
             isi = file.read()
 
             if isi.strip() == "":
-                print(
-                    "Belum ada "
-                    "riwayat update."
-                )
+                print(Colors.YELLOW + "Belum ada riwayat update." + Colors.RESET)
 
             else:
                 print(isi)
 
     except FileNotFoundError:
-
-        print(
-            "Belum ada file "
-            "riwayat update."
-        )
+        print(Colors.YELLOW + "Belum ada file riwayat update." + Colors.RESET)
 
 # ===========================================================
 # LOAD DATA
@@ -319,14 +338,16 @@ def muat_data_kategori(nama_file):
                 baris = baris.strip()
                 if not baris or baris.startswith("#"):
                     continue
-                parts = baris.split(",", 4)
-                if len(parts) < 5:
+                parts = baris.split(",", 5)
+                if len(parts) < 6:
                     continue
                 kategori = parts[0].strip()
                 merk = parts[1].strip()
                 series = parts[2].strip()
                 harga = int(parts[3].strip())
                 deskripsi = parts[4].strip()
+                stok = int(parts[5].strip()) if parts[5].strip().isdigit() else 0
+
                 if kategori not in database_kategori:
                     database_kategori[kategori] = {}
                 if merk not in database_kategori[kategori]:
@@ -334,45 +355,64 @@ def muat_data_kategori(nama_file):
                 database_kategori[kategori][merk].append({
                     "series": series,
                     "harga": harga,
-                    "deskripsi": deskripsi
+                    "deskripsi": deskripsi,
+                    "stok": stok
                 })
     except FileNotFoundError:
-        print("File belum ada, akan dibuat saat penyimpanan")
+        print(Colors.YELLOW + "File belum ada, akan dibuat saat penyimpanan" + Colors.RESET)
 
     return database_kategori
+
 # ===========================================================
 # FORMAT RUPIAH
 # ===========================================================
 def format_rupiah(angka):
     return f"Rp {angka:,}".replace(",", ".")
+
 # ===========================================================
-# TAMPILKAN DATA
+# TAMPILKAN DATA 
 # ===========================================================
 def tampilkan_data(buka_data):
-
-    print("\n" + "=" * 60)
-    print("DATA KATEGORI PRODUK TOKO ONLINE")
-    print("=" * 60)
-
-    total_produk = 0
-
-    for kategori, daftar_merk in buka_data.items():
-
+    
+    print("\n" + "═" * 70)
+    print("📦 KATALOG PRODUK TOKO ONLINE".center(70))
+    print("═" * 70)
+    
+    total = 0
+    
+    for kategori, data_merk in buka_data.items():
+        # HEADER KATEGORI
         print(f"\n[{kategori.upper()}]")
-
-        for merk, daftar_produk in daftar_merk.items():
-
+        
+        for merk, produk_list in data_merk.items():
+            # HEADER MERK
             print(f"  [{merk}]")
+            
+            for p in produk_list:
+                series = p.get('series', '')
+                harga = format_rupiah(p.get('harga', 0))
+                desk = p.get('deskripsi', '')
+                stok = p.get('stok', 0)
+                
+                # Label stok
+                if stok <= 0:
+                    st = Colors.RED + "🚫 HABIS" + Colors.RESET
+                elif stok <= 5:
+                    st = Colors.YELLOW + f"⚠️ {stok}" + Colors.RESET
+                else:
+                    st = Colors.GREEN + f"✅ {stok}" + Colors.RESET
+                
+                print(f"    📱 {Colors.BOLD}{series}{Colors.RESET}")
+                print(f"       💰 {harga}   {st}")
+                print(f"       📝 {desk}")
+                print()
+                
+                total += 1
+    
+    print("─" * 70)
+    print(f"Total Produk: {Colors.YELLOW}{total}{Colors.RESET}")
+    print("─" * 70)
 
-            for produk in daftar_produk:
-
-                print(f"    • {produk['series']}")
-                print(f"      Harga     : {format_rupiah(produk['harga'])}")
-                print(f"      Deskripsi : {produk['deskripsi']}")
-
-                total_produk += 1
-
-    print(f"\n[Total Produk: {total_produk}]")
 # ===========================================================
 # CASE INSENSITIVE
 # ===========================================================
@@ -389,27 +429,31 @@ def cari_key_case_insensitive(data_dict, key_input):
 # ===========================================================
 def tambah_data(buka_data):
 
-    print("\n=== TAMBAH DATA ===")
+    print("\n" + Colors.CYAN + "═" * 50 + Colors.RESET)
+    print(Colors.CYAN_BOLD + "         ➕ TAMBAH DATA BARU          ".center(50) + Colors.RESET)
+    print(Colors.CYAN + "═" * 50 + Colors.RESET)
 
-    kategori = input("Masukkan kategori (HP/Laptop): ").strip()
-    merk = input("Masukkan merk      : ").strip()
-    series = input("Masukkan series    : ").strip()
-    harga = input("Masukkan harga (input angka)  : ").strip()
-    deskripsi = input("Masukkan deskripsi : ").strip()
+    kategori = input(Colors.WHITE + "\n📁 Kategori (HP/Laptop): " + Colors.RESET).strip()
+    merk = input(Colors.WHITE + "🏷️  Merk           : " + Colors.RESET).strip()
+    series = input(Colors.WHITE + "📱 Series         : " + Colors.RESET).strip()
+    harga = input(Colors.WHITE + "💰 Harga (angka)   : " + Colors.RESET).strip()
+    deskripsi = input(Colors.WHITE + "📝 Deskripsi      : " + Colors.RESET).strip()
+    stok = input(Colors.WHITE + "📦 Stok (angka)   : " + Colors.RESET).strip()
 
     # ======================================================
     # VALIDASI INPUT
     # ======================================================
 
     if kategori == "" or merk == "" or series == "" or harga == "" or deskripsi == "":
-        print("\nSemua input wajib diisi!")
+        print("\nSemua input wajib diisi!" + Colors.RESET)
         return
 
     if not harga.isdigit():
-        print("\nHarga harus berupa angka!")
+        print("\nHarga harus berupa angka!" + Colors.RESET)
         return
 
     harga = int(harga)
+    stok = int(stok)
 
     kategori_baru = False
     merk_baru = False
@@ -451,7 +495,7 @@ def tambah_data(buka_data):
     for produk in buka_data[kategori_key][merk_key]:
 
         if produk['series'].lower() == series.lower():
-            print("\nSeries sudah ada!")
+            print(Colors.RED + "\nSeries sudah ada!" + Colors.RESET)
             return
 
     # ======================================================
@@ -461,30 +505,31 @@ def tambah_data(buka_data):
     buka_data[kategori_key][merk_key].append({
         "series": series,
         "harga": harga,
-        "deskripsi": deskripsi
+        "deskripsi": deskripsi,
+        "stok": stok
     })
 
     # ======================================================
     # OUTPUT
     # ======================================================
 
-    print("\n===================================")
-    print("      DATA BERHASIL DITAMBAHKAN")
-    print("===================================")
-
-    print(f"Kategori  : {kategori_key}")
-    print(f"Merk      : {merk_key}")
-    print(f"Series    : {series}")
-    print(f"Harga     : {format_rupiah(harga)}")
-    print(f"Deskripsi : {deskripsi}")
+    print(Colors.GREEN + "\n" + "═" * 45 + Colors.RESET)
+    print(Colors.GREEN_BOLD + "      ✅ DATA BERHASIL DITAMBAHKAN       ".center(45) + Colors.RESET)
+    print(Colors.GREEN + "═" * 45 + Colors.RESET)
+    
+    print(f"\n{Colors.WHITE}📁 Kategori  :{Colors.RESET} {kategori_key}")
+    print(f"{Colors.WHITE}🏷️  Merk       :{Colors.RESET} {merk_key}")
+    print(f"{Colors.WHITE}📱 Series     :{Colors.RESET} {series}")
+    print(f"{Colors.WHITE}💰 Harga      :{Colors.RESET} {format_rupiah(harga)}")
+    print(f"{Colors.WHITE}📝 Deskripsi  :{Colors.RESET} {deskripsi}")
+    print(f"{Colors.WHITE}📦 Stok      :{Colors.RESET} {stok} unit")
 
     if kategori_baru:
-        print("Kategori baru berhasil dibuat")
-
+        print(Colors.CYAN + "✨ Kategori baru berhasil dibuat!" + Colors.RESET)
     if merk_baru:
-        print("Merk baru berhasil dibuat")
-
-    print("===================================")
+        print(Colors.CYAN + "✨ Merk baru berhasil dibuat!" + Colors.RESET)
+    
+    print(Colors.GREEN + "═" * 45 + Colors.RESET)
 # ===========================================================
 # SIMPAN DATA
 # ===========================================================
@@ -510,7 +555,9 @@ def simpan_data(nama_file, data):
 # ===========================================================
 def update_data(buka_data):
 
-    print("\n=== UPDATE DATA ===")
+    print("\n" + Colors.CYAN + "═" * 50 + Colors.RESET)
+    print(Colors.CYAN_BOLD + "         🔄 UPDATE DATA          ".center(50) + Colors.RESET)
+    print(Colors.CYAN + "═" * 50 + Colors.RESET)
 
     daftar_kategori = list(buka_data.keys())
 
@@ -980,9 +1027,6 @@ def update_data(buka_data):
             return True
 
     return False
-# ===========================================================
-# HAPUS DATA
-# ===========================================================
 
 # ===========================================================
 # HAPUS DATA
@@ -1006,12 +1050,15 @@ def hapus_data(buka_data):
     # HAPUS KATEGORI
     # ======================================================
     if pilihan == "1":
+
         daftar_kategori = list(
             buka_data.keys()
         )
+
         if len(daftar_kategori) == 0:
             print("Data kosong!")
             return False
+
         for i in range(
             len(daftar_kategori)
         ):
@@ -1019,21 +1066,24 @@ def hapus_data(buka_data):
                 f"{i+1}. "
                 f"{daftar_kategori[i]}"
             )
+
         nomor_kembali = (
             len(daftar_kategori)
             + 1
         )
+
         print(
             f"\n{nomor_kembali}. "
             "Kembali"
         )
-        
+
         try:
             pilih = int(
                 input(
                     "Pilih kategori: "
                 )
             )
+
         except ValueError:
             print(
                 "Input harus angka!"
@@ -1042,41 +1092,54 @@ def hapus_data(buka_data):
 
         if pilih == nomor_kembali:
             return False
+
         pilih -= 1
+
         if 0 <= pilih < len(
             daftar_kategori
         ):
+
             kategori = (
                 daftar_kategori[pilih]
             )
+
             while True:
+
                 konfirmasi = input(
                     f"Yakin hapus kategori "
                     f"'{kategori}'? "
                     f"(y/t/kembali): "
                 ).lower()
+
                 if konfirmasi == "y":
+
                     del buka_data[
                         kategori
                     ]
+
                     print(
                         "Kategori berhasil "
                         "dihapus!"
                     )
+
                     return True
+
                 elif konfirmasi == "t":
                     print("Dibatalkan")
                     return False
+
                 elif (
                     konfirmasi
                     == "kembali"
                 ):
                     return False
+
                 else:
                     print(
                         "Masukkan "
                         "y/t/kembali"
                     )
+
         else:
             print(
                 "Pilihan tidak valid"
@@ -1087,12 +1150,15 @@ def hapus_data(buka_data):
     # HAPUS MERK
     # ======================================================
     elif pilihan == "2":
+
         daftar_kategori = list(
             buka_data.keys()
         )
+
         if len(daftar_kategori) == 0:
             print("Data kosong!")
             return False
+
         for i in range(
             len(daftar_kategori)
         ):
@@ -1100,10 +1166,12 @@ def hapus_data(buka_data):
                 f"{i+1}. "
                 f"{daftar_kategori[i]}"
             )
+
         nomor_kembali = (
             len(daftar_kategori)
             + 1
         )
+
         print(
             f"\n{nomor_kembali}. "
             "Kembali"
@@ -1115,36 +1183,44 @@ def hapus_data(buka_data):
                     "Pilih kategori: "
                 )
             )
+
         except ValueError:
             print(
                 "Input harus angka!"
             )
             return False
+
         if (
             pilih_kategori
             == nomor_kembali
         ):
             return False
+
         pilih_kategori -= 1
+
         if (
             0 <= pilih_kategori
             < len(daftar_kategori)
         ):
+
             kategori = (
                 daftar_kategori[
                     pilih_kategori
                 ]
             )
+
             daftar_merk = list(
                 buka_data[
                     kategori
                 ].keys()
             )
+
             if len(daftar_merk) == 0:
                 print(
                     "Merk tidak ada!"
                 )
                 return False
+
             for i in range(
                 len(daftar_merk)
             ):
@@ -1152,10 +1228,12 @@ def hapus_data(buka_data):
                     f"{i+1}. "
                     f"{daftar_merk[i]}"
                 )
+
             nomor_kembali = (
                 len(daftar_merk)
                 + 1
             )
+
             print(
                 f"\n{nomor_kembali}. "
                 "Kembali"
@@ -1167,11 +1245,13 @@ def hapus_data(buka_data):
                         "Pilih merk: "
                     )
                 )
+
             except ValueError:
                 print(
                     "Input harus angka!"
                 )
                 return False
+
             if (
                 pilih_merk
                 == nomor_kembali
@@ -1179,13 +1259,16 @@ def hapus_data(buka_data):
                 return False
 
             pilih_merk -= 1
+
             if (
                 0 <= pilih_merk
                 < len(daftar_merk)
             ):
+
                 merk = daftar_merk[
                     pilih_merk
                 ]
+
                 while True:
                     konfirmasi = input(
                         f"Yakin hapus "
@@ -1225,12 +1308,15 @@ def hapus_data(buka_data):
     # HAPUS SERIES
     # ======================================================
     elif pilihan == "3":
+
         daftar_kategori = list(
             buka_data.keys()
         )
+
         if len(daftar_kategori) == 0:
             print("Data kosong!")
             return False
+
         for i in range(
             len(daftar_kategori)
         ):
@@ -1238,10 +1324,12 @@ def hapus_data(buka_data):
                 f"{i+1}. "
                 f"{daftar_kategori[i]}"
             )
+
         nomor_kembali = (
             len(daftar_kategori)
             + 1
         )
+
         print(
             f"\n{nomor_kembali}. "
             "Kembali"
@@ -1253,6 +1341,7 @@ def hapus_data(buka_data):
                     "Pilih kategori: "
                 )
             )
+
         except ValueError:
             print(
                 "Input harus angka!"
@@ -1264,24 +1353,30 @@ def hapus_data(buka_data):
             == nomor_kembali
         ):
             return False
+
         pilih_kategori -= 1
+
         if (
             0 <= pilih_kategori
             < len(daftar_kategori)
         ):
+
             kategori = (
                 daftar_kategori[
                     pilih_kategori
                 ]
             )
+
             daftar_merk = list(
                 buka_data[
                     kategori
                 ].keys()
             )
+
             if len(daftar_merk) == 0:
                 print("Merk kosong!")
                 return False
+
             for i in range(
                 len(daftar_merk)
             ):
@@ -1289,10 +1384,12 @@ def hapus_data(buka_data):
                     f"{i+1}. "
                     f"{daftar_merk[i]}"
                 )
+
             nomor_kembali = (
                 len(daftar_merk)
                 + 1
             )
+
             print(
                 f"\n{nomor_kembali}. "
                 "Kembali"
@@ -1304,6 +1401,7 @@ def hapus_data(buka_data):
                         "Pilih merk: "
                     )
                 )
+
             except ValueError:
                 print(
                     "Input harus angka!"
@@ -1315,32 +1413,40 @@ def hapus_data(buka_data):
                 == nomor_kembali
             ):
                 return False
+
             pilih_merk -= 1
+
             if (
                 0 <= pilih_merk
                 < len(daftar_merk)
             ):
+
                 merk = daftar_merk[
                     pilih_merk
                 ]
+
                 daftar_produk = (
                     buka_data[
                         kategori
                     ][merk]
                 )
+
                 produk_list = (
                     daftar_produk
                     .to_list()
                 )
+
                 if len(produk_list) == 0:
                     print(
                         "Series kosong!"
                     )
                     return False
+
                 print(
                     f"\nSeries pada "
                     f"{merk}:"
                 )
+
                 for i in range(
                     len(produk_list)
                 ):
@@ -1348,10 +1454,12 @@ def hapus_data(buka_data):
                         f"{i+1}. "
                         f"{produk_list[i]['series']}"
                     )
+
                 nomor_kembali = (
                     len(produk_list)
                     + 1
                 )
+
                 print(
                     f"\n{nomor_kembali}. "
                     "Kembali"
@@ -1369,57 +1477,71 @@ def hapus_data(buka_data):
                         "Input harus angka!"
                     )
                     return False
-                
+
                 if (
                     pilih_series
                     == nomor_kembali
                 ):
                     return False
+
                 pilih_series -= 1
+
                 if (
                     0 <= pilih_series
                     < len(produk_list)
                 ):
+
                     series = (
                         produk_list[
                             pilih_series
                         ]['series']
                     )
+
                     while True:
+
                         konfirmasi = input(
                             f"Yakin hapus "
                             f"series "
                             f"'{series}'? "
                             f"(y/t/kembali): "
                         ).lower()
+
                         if konfirmasi == "y":
+
                             daftar_produk.delete_at_index(
                                 pilih_series
                             )
+
                             print(
                                 "Series berhasil "
                                 "dihapus!"
                             )
+
                             return True
+
                         elif konfirmasi == "t":
                             print("Dibatalkan")
                             return False
+
                         elif (
                             konfirmasi
                             == "kembali"
                         ):
                             return False
+
                         else:
                             print(
                                 "Masukkan "
                                 "y/t/kembali"
                             )
+
                 else:
                     print(
                         "Pilihan series "
                         "tidak valid"
                     )
                     return False
+
     else:
         print(
             "Pilihan tidak valid"
@@ -1739,6 +1861,7 @@ def main():
                                 print(f"\n• {produk['series']}")
                                 print(f"  Harga : {format_rupiah(produk['harga'])}")
                                 print(f"  Desk  : {produk['deskripsi']}")
+                                print(f"  Stok : {produk['stok']}")
 
                         else:
                             print("Pilihan merk tidak valid")
@@ -1801,11 +1924,12 @@ def main():
 
                                 produk = daftar_produk[index]
 
-                                print("\n===================================")
+                                print("\n===================================================")
                                 print(f"Series : {produk['series']}")
                                 print(f"Harga  : {format_rupiah(produk['harga'])}")
                                 print(f"Desk   : {produk['deskripsi']}")
-                                print("===================================")
+                                print(f"Stok   : {produk['stok']}")
+                                print("=====================================================")
 
                                 print("\n[n] Next")
                                 print("[p] Prev")
