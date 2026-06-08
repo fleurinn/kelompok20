@@ -812,6 +812,66 @@ def update_data(buka_data):
                 if pilih_series == nomor_kembali:
                     break
 
+                # kembali
+                if pilih_series == nomor_kembali:
+                    break
+
+                # ==========================================
+                # UPDATE NAMA MERK
+                # ==========================================
+                if pilih_series == 0:
+
+                    merk_baru = input(
+                        "Masukkan nama merk baru "
+                        "(Enter = tidak diubah): "
+                    ).strip()
+
+                    if merk_baru == "":
+                        print(
+                            f"{BOLD}{RED}"
+                            f"Merk tidak diubah."
+                            f"{RESET}"
+                        )
+                        continue
+
+                    # cek duplikat merk
+                    merk_sudah_ada = (
+                        cari_key_case_insensitive(
+                            buka_data[kategori_terpilih],
+                            merk_baru
+                        )
+                    )
+
+                    if (
+                        merk_sudah_ada is not None
+                        and merk_sudah_ada.lower()
+                        != merk_terpilih.lower()
+                    ):
+
+                        print(
+                            f"{BOLD}{RED}"
+                            f"Merk sudah ada!"
+                            f"{RESET}"
+                        )
+                        continue
+
+                    # rename key dictionary
+                    buka_data[
+                        kategori_terpilih
+                    ][merk_baru] = buka_data[
+                        kategori_terpilih
+                    ].pop(merk_terpilih)
+
+                    merk_terpilih = merk_baru
+
+                    print(
+                        f"{BOLD}{GREEN}"
+                        f"Merk berhasil diupdate!"
+                        f"{RESET}"
+                    )
+
+                    return True
+
                 pilih_series -= 1
 
                 # validasi series
