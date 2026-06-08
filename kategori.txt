@@ -1,14 +1,14 @@
 HP,Samsung,Galaxy Z,12999000,HP flagship lipat Z Fold6 dengan layar besar buat multitasking dan produktivitas,15
-HP,Samsung,Galaxy a55,4999000,Hp mid-range terbaik dengan layar jernih cocok buat konten kreator muda,45
-HP,Xiaomi,Redmi Note,3299000,Hp harga terbaik di kelasnya kamera resolusi tinggi buat foto harian,55
-HP,Xiaomi,Poco X,4199000,Hp gaming mid-range paling powerful cocok buat mobile gamer,35
+HP,Samsung,Galaxy A55,4999000,HP mid-range terbaik dengan layar jernih cocok buat konten kreator muda,45
+HP,Xiaomi,Redmi Note,3299000,HP harga terbaik di kelasnya kamera resolusi tinggi buat foto harian,55
+HP,Xiaomi,Poco X,4199000,HP gaming mid-range paling powerful cocok buat mobile gamer,35
 HP,Xiaomi,Xiaomi 14,9999000,Flagship compact Xiaomi dengan kamera Leica size pas di tangan,20
-HP,Oppo,Reno,5499000,Hp selfie specialist dengan AI beautify desain premium elegan,30
+HP,Oppo,Reno,5499000,HP selfie specialist dengan AI beautify desain premium elegan,30
 HP,Oppo,Find X,13999000,Flagship Oppo dengan zoom telescope 6x king of photography,12
-HP,Oppo,A Series,2499000,Hp entry-level tahan banting cocok untuk pelajar dan pengguna casual,50
-HP,Vivo,V Series,5999000,Hp portrait profesional dengan lampu Aura hasil foto studio,30
-HP,Vivo,Y Series,2999000,Hp baterai monster kuat buat streaming dan main game seharian,50
-HP,Vivo,X Series,11999000,Hp vivo flagship dengan fast charging 120W isi daya 0-100 dalam 25 menit,15
+HP,Oppo,A Series,2499000,HP entry-level tahan banting cocok untuk pelajar dan pengguna casual,50
+HP,Vivo,V Series,5999000,HP portrait profesional dengan lampu Aura hasil foto studio,30
+HP,Vivo,Y Series,2999000,HP baterai monster kuat buat streaming dan main game seharian,50
+HP,Vivo,X Series,11999000,HP vivo flagship dengan fast charging 120W isi daya 0-100 dalam 25 menit,15
 HP,Apple,iPhone Pro,15499000,iPhone premium dengan titanium frame dan Apple Intelligence AI tercanggih,25
 HP,Apple,iPhone Air,10499000,iPhone baru dengan design tipis dan Camera Control button resmi,40
 HP,Apple,iPhone SE,5499000,iPhone termurah Apple masuk ekosistem iOS dengan harga terjangkau,60
