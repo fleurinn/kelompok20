@@ -1,4 +1,4 @@
-HP,Samsung,Galaxy Z,12000000,HP flagship lipat Z Fold6 dengan layar besar buat multitasking dan produktivitas,15
+HP,Samsung,Galaxy Z,4000000,HP Bagus dan Canggih,13
 HP,Samsung,Galaxy A55,4999000,HP mid-range terbaik dengan layar jernih cocok buat konten kreator muda,45
 HP,Xiaomi,Redmi Note,3299000,HP harga terbaik di kelasnya kamera resolusi tinggi buat foto harian,55
 HP,Xiaomi,Poco X,4199000,HP gaming mid-range paling powerful cocok buat mobile gamer,35
@@ -13,6 +13,8 @@ HP,Apple,iPhone Pro,15499000,iPhone premium dengan titanium frame dan Apple Inte
 HP,Apple,iPhone Air,10499000,iPhone baru dengan design tipis dan Camera Control button resmi,40
 HP,Apple,iPhone SE,5499000,iPhone termurah Apple masuk ekosistem iOS dengan harga terjangkau,60
 HP,Google,Baru,9999000,Google Pixel dengan AI tercanggih Magic Eraser dan 7 tahun update,20
+HP,Realme,gt 7 pro,8999000,HP flagship killer Realme dengan performa ekstrem cocok untuk gaming berat dan content creator,25
+HP,tecno,common 40 pro,5400000,kameranya bagus,20
 Laptop,Asus,ROG,42999000,Gaming laptop paling buas Indonesia cocok esports dan content creation,10
 Laptop,Asus,TUF,18999000,Gaming laptop Anti-rusak dengan harga paling worth it di kelasnya,25
 Laptop,Asus,Vivobook,16499000,Laptop kreator dengan layar OLED murah cocok desain dan edit video,30
@@ -26,5 +28,3 @@ Laptop,HP,Pavilion,13999000,Laptop stylish dengan audio Bang&Olufsen ringan cuma
 Laptop,HP,Victus,15499000,Gaming entry-level HP dengan sistem pendingin Omen Tempest,30
 Laptop,HP,OMEN,27999000,Gaming HP tertinggi dengan RGB keyboard dan vapor chamber,18
 Laptop,Dell,Inspiron,14500000,Laptop hybrid kerja dan gaming ringan harga value terbaik,30
-Laptop,Dell,XPS,32999000,Ultrabook premium Dell dengan bezel tipis dan CNC aluminum,12
-Laptop,Dell,Alienware,55999000,Gaming laptop tertinggi dengan Cherry MX mechanical keyboard,5

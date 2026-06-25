@@ -1,18 +1,18 @@
 ==================================================
-Tanggal Update : 08-06-2026 09:01:28
+Tanggal Update : 08-06-2026 10:27:44
 Kategori       : HP
 Merk            : Samsung
 
 --- DATA LAMA ---
 Series    : Galaxy Z
-Harga     : 12999000
+Harga     : 12000000
 Deskripsi : HP flagship lipat Z Fold6 dengan layar besar buat multitasking dan produktivitas
 Stok      : 15
 
 --- DATA BARU ---
 Series    : Galaxy Z
-Harga     : 12000000
-Deskripsi : HP flagship lipat Z Fold6 dengan layar besar buat multitasking dan produktivitas
-Stok      : 15
+Harga     : 4000000
+Deskripsi : HP Bagus dan Canggih
+Stok      : 13
 ==================================================
 
