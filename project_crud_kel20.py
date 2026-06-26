@@ -457,10 +457,12 @@ def cari_key_case_insensitive(data_dict, key_input):
 # ===========================================================
 def tambah_data(buka_data):
 
+    # Menampilkan judul menu tambah data
     print("\n" + Colors.CYAN + "═" * 50 + Colors.RESET)
     print(Colors.CYAN_BOLD + "         ➕ TAMBAH DATA BARU          ".center(50) + Colors.RESET)
     print(Colors.CYAN + "═" * 50 + Colors.RESET)
 
+    # Meminta pengguna mengisi informasi produk
     kategori = input(Colors.WHITE + "\n"
     "Masukkan Kategori (HP/Laptop): " + Colors.RESET).strip()
     merk = input(Colors.WHITE + "Masukkan Merk                : " + Colors.RESET).strip()
@@ -469,68 +471,57 @@ def tambah_data(buka_data):
     deskripsi = input(Colors.WHITE + "Masukkan Deskripsi Barang    : " + Colors.RESET).strip()
     stok = input(Colors.WHITE + "Masukkan Jumlah Stok (angka) : " + Colors.RESET).strip()
 
-    # ======================================================
-    # VALIDASI INPUT
-    # ======================================================
-
+    # Memastikan semua data wajib telah diisi
     if kategori == "" or merk == "" or series == "" or harga == "" or deskripsi == "":
         print("\nSemua input wajib diisi!" + Colors.RESET)
         return
 
+    # Memastikan harga hanya berisi angka
     if not harga.isdigit():
         print("\nHarga harus berupa angka!" + Colors.RESET)
         return
 
+    # Mengubah nilai harga dan stok dari string menjadi integer
     harga = int(harga)
     stok = int(stok)
 
     kategori_baru = False
     merk_baru = False
 
-    # ======================================================
-    # CEK KATEGORI
-    # ======================================================
-
+    # Mencari apakah kategori sudah ada (tanpa membedakan huruf besar/kecil)
     kategori_key = cari_key_case_insensitive(
         buka_data,
         kategori
     )
 
+    # Jika kategori belum ada, buat kategori baru
     if kategori_key is None:
 
         buka_data[kategori] = {}
         kategori_key = kategori
         kategori_baru = True
 
-    # ======================================================
-    # CEK MERK
-    # ======================================================
-
+    # Mencari apakah merk sudah ada pada kategori tersebut
     merk_key = cari_key_case_insensitive(
         buka_data[kategori_key],
         merk
     )
 
+    # Jika merk belum ada, buat merk baru dengan linked list kosong
     if merk_key is None:
 
         buka_data[kategori_key][merk] = DoubleCircularLinkedList()
         merk_key = merk
         merk_baru = True
 
-    # ======================================================
-    # CEK DUPLIKASI SERIES
-    # ======================================================
-
+    # Memeriksa apakah series sudah pernah ditambahkan sebelumnya
     for produk in buka_data[kategori_key][merk_key]:
 
         if produk['series'].lower() == series.lower():
             print(Colors.RED + "\nSeries sudah ada!" + Colors.RESET)
             return
 
-    # ======================================================
-    # TAMBAH DATA
-    # ======================================================
-
+    # Menambahkan produk baru ke dalam linked list
     buka_data[kategori_key][merk_key].append({
         "series": series,
         "harga": harga,
@@ -538,10 +529,7 @@ def tambah_data(buka_data):
         "stok": stok
     })
 
-    # ======================================================
-    # OUTPUT
-    # ======================================================
-
+    # Menampilkan informasi bahwa data berhasil ditambahkan
     print(Colors.GREEN + "\n" + "═" * 45 + Colors.RESET)
     print(Colors.GREEN_BOLD + "      ✅ DATA BERHASIL DITAMBAHKAN       ".center(45) + Colors.RESET)
     print(Colors.GREEN + "═" * 45 + Colors.RESET)
@@ -551,23 +539,31 @@ def tambah_data(buka_data):
     print(f"{Colors.WHITE}Series     :{Colors.RESET} {series}")
     print(f"{Colors.WHITE}Harga      :{Colors.RESET} {format_rupiah(harga)}")
     print(f"{Colors.WHITE}Deskripsi  :{Colors.RESET} {deskripsi}")
-    print(f"{Colors.WHITE}Stok      :{Colors.RESET} {stok} unit")
+    print(f"{Colors.WHITE}Stok       :{Colors.RESET} {stok} unit")
 
+    # Memberi informasi jika kategori atau merk baru berhasil dibuat
     if kategori_baru:
         print(Colors.CYAN + "Kategori baru berhasil dibuat!" + Colors.RESET)
     if merk_baru:
         print(Colors.CYAN + "Merk baru berhasil dibuat!" + Colors.RESET)
     
     print(Colors.GREEN + "═" * 45 + Colors.RESET)
+
+
 # ===========================================================
 # SIMPAN DATA
 # ===========================================================
 def simpan_data(nama_file, data):
 
+    # Membuka file dalam mode tulis untuk menyimpan data terbaru
     with open(nama_file, "w", encoding="utf-8") as file:
+
+        # Menelusuri setiap kategori, merk, dan produk
         for kategori, merk_dict in data.items():
             for merk, daftar_produk in merk_dict.items():
                 for produk in daftar_produk:
+
+                    # Menulis data produk ke file dalam format CSV
                     file.write(
                         f"{kategori},"
                         f"{merk},"
@@ -575,7 +571,8 @@ def simpan_data(nama_file, data):
                         f"{produk['harga']},"
                         f"{produk['deskripsi']},"
                         f"{produk['stok']}\n"
-                )
+                    )
+                                        
 # ===========================================================
 # UPDATE DATA
 # ===========================================================
@@ -1387,11 +1384,13 @@ def hapus_data(buka_data):
     else:
         print(f"{BOLD}{RED}Pilihan tidak valid{RESET}")
         return False
+    
 # ===========================================================
 # SEARCH DATA
 # ===========================================================
 def search_data(buka_data):
 
+    # Menampilkan menu pilihan pencarian
     print("\n=== SEARCH DATA ===")
     print("1. Cari Kategori")
     print("2. Cari Merk")
@@ -1400,10 +1399,7 @@ def search_data(buka_data):
 
     pilihan = input("Pilih pencarian (1-4): ").strip()
 
-    # ======================================================
-    # VALIDASI PILIHAN
-    # ======================================================
-
+    # Memastikan pilihan menu yang dimasukkan valid
     if pilihan == "4":
         return
 
@@ -1411,28 +1407,29 @@ def search_data(buka_data):
         print("\nPilihan harus angka 1-4!")
         return
 
-    # ======================================================
-    # INPUT KEYWORD
-    # ======================================================
-
+    # Meminta pengguna memasukkan kata kunci pencarian
     keyword = input("Masukkan keyword: ").strip().lower()
 
+    # Memastikan keyword tidak kosong
     if keyword == "":
         print("\nKeyword tidak boleh kosong!")
         return
 
+    # Penanda apakah data berhasil ditemukan
     ditemukan = False
 
     # ======================================================
-    # SEARCH KATEGORI
+    # PENCARIAN BERDASARKAN KATEGORI
     # ======================================================
 
     if pilihan == "1":
 
+        # Minimal keyword kategori terdiri dari 2 huruf
         if len(keyword) < 2:
-            print("\n Kategori minimal 2 huruf!")
+            print("\nKategori minimal 2 huruf!")
             return
 
+        # Mencari kategori yang mengandung keyword
         for kategori, merk_dict in buka_data.items():
 
             if keyword in kategori.lower():
@@ -1440,21 +1437,24 @@ def search_data(buka_data):
                 print(f"Kategori : {kategori}")
                 print("Merk     :")
 
+                # Menampilkan seluruh merk pada kategori tersebut
                 for merk, daftar_produk in merk_dict.items():
                     print(f"          • {merk}")
 
                 ditemukan = True
 
     # ======================================================
-    # SEARCH MERK
+    # PENCARIAN BERDASARKAN MERK
     # ======================================================
 
     elif pilihan == "2":
 
+        # Minimal keyword merk terdiri dari 3 huruf
         if len(keyword) < 3:
-            print("\n Merk minimal 3 huruf!")
+            print("\nMerk minimal 3 huruf!")
             return
 
+        # Mencari merk yang sesuai dengan keyword
         for kategori, merk_dict in buka_data.items():
 
             for merk, daftar_produk in merk_dict.items():
@@ -1464,6 +1464,7 @@ def search_data(buka_data):
                     print(f"Merk : {merk}")
                     print(f"Kategori : {kategori}")
 
+                    # Menampilkan seluruh series pada merk tersebut
                     for produk in daftar_produk:
 
                         print(f"• {produk['series']}")
@@ -1471,15 +1472,17 @@ def search_data(buka_data):
                     ditemukan = True
 
     # ======================================================
-    # SEARCH SERIES
+    # PENCARIAN BERDASARKAN SERIES
     # ======================================================
 
     elif pilihan == "3":
 
+        # Minimal keyword series terdiri dari 3 huruf
         if len(keyword) < 3:
-            print("\n Series minimal 3 huruf!")
+            print("\nSeries minimal 3 huruf!")
             return
 
+        # Mencari produk berdasarkan nama series
         for kategori, merk_dict in buka_data.items():
 
             for merk, daftar_produk in merk_dict.items():
@@ -1492,6 +1495,7 @@ def search_data(buka_data):
                         print("SERIES DITEMUKAN")
                         print("===================================")
 
+                        # Menampilkan informasi lengkap produk
                         print(f"Kategori  : {kategori}")
                         print(f"Merk      : {merk}")
                         print(f"Series    : {produk['series']}")
@@ -1502,16 +1506,20 @@ def search_data(buka_data):
                         ditemukan = True
 
     else:
-        print("\n Pilihan tidak valid!")
+        print("\nPilihan tidak valid!")
         return
 
+    # Memberikan informasi jika data tidak ditemukan
     if not ditemukan:
-        print("\n Data tidak ditemukan")
-# ==========================================================
+        print("\nData tidak ditemukan")
+
+
+# ===========================================================
 # SORT DATA
-# ==========================================================
+# ===========================================================
 def sort_data(buka_data):
 
+    # Menampilkan menu sorting data
     print("\n=== SORT DATA ===")
     print("1. Sort Harga Termurah")
     print("2. Sort Harga Termahal")
@@ -1519,10 +1527,7 @@ def sort_data(buka_data):
 
     pilihan = input("Pilih sorting (1-3): ").strip()
 
-    # ======================================================
-    # VALIDASI PILIHAN
-    # ======================================================
-
+    # Memastikan pilihan menu valid
     if pilihan == "3":
         return
 
@@ -1530,11 +1535,10 @@ def sort_data(buka_data):
         print("\nPilihan harus angka 1-3!")
         return
 
+    # Menyimpan seluruh produk ke dalam satu list
     semua_produk = []
-    # ======================================================
-    # GABUNGKAN SEMUA PRODUK
-    # ======================================================
 
+    # Menggabungkan semua data produk dari setiap kategori dan merk
     for kategori, merk_dict in buka_data.items():
 
         for merk, daftar_produk in merk_dict.items():
@@ -1551,11 +1555,12 @@ def sort_data(buka_data):
                 })
 
     # ======================================================
-    # SORT HARGA TERMURAH
+    # MENGURUTKAN HARGA DARI YANG TERMURAH
     # ======================================================
 
     if pilihan == "1":
 
+        # Mengurutkan produk berdasarkan harga secara menaik
         harga_sorted = sorted(
             semua_produk,
             key=lambda x: x['harga']
@@ -1563,6 +1568,7 @@ def sort_data(buka_data):
 
         print("\n=== SORT HARGA TERMURAH ===")
 
+        # Menampilkan hasil pengurutan
         for produk in harga_sorted:
 
             print(f"\n• {produk['series']}")
@@ -1571,14 +1577,14 @@ def sort_data(buka_data):
             print(f"  Harga    : {format_rupiah(produk['harga'])}")
             print(f"  Desk     : {produk['deskripsi']}")
             print(f"  Stok     : {produk['stok']} Unit")
-            
 
     # ======================================================
-    # SORT HARGA TERMAHAL
+    # MENGURUTKAN HARGA DARI YANG TERMAHAL
     # ======================================================
 
     elif pilihan == "2":
 
+        # Mengurutkan produk berdasarkan harga secara menurun
         harga_sorted = sorted(
             semua_produk,
             key=lambda x: x['harga'],
@@ -1587,6 +1593,7 @@ def sort_data(buka_data):
 
         print("\n=== SORT HARGA TERMAHAL ===")
 
+        # Menampilkan hasil pengurutan
         for produk in harga_sorted:
 
             print(f"\n• {produk['series']}")
@@ -1597,7 +1604,8 @@ def sort_data(buka_data):
             print(f"  Stok     : {produk['stok']} Unit")
 
     else:
-        print(" Pilihan sorting tidak valid")
+        print("Pilihan sorting tidak valid!")
+        
 # ==========================================================
 # MAIN PROGRAM
 # ==========================================================
