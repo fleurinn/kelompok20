@@ -1,18 +1,18 @@
 ==================================================
-Tanggal Update : 08-06-2026 10:27:44
+Tanggal Update : 26-06-2026 17:33:30
 Kategori       : HP
-Merk            : Samsung
+Merk            : Tecno
 
 --- DATA LAMA ---
-Series    : Galaxy Z
-Harga     : 12000000
-Deskripsi : HP flagship lipat Z Fold6 dengan layar besar buat multitasking dan produktivitas
-Stok      : 15
+Series    : common 40 pro
+Harga     : 5400000
+Deskripsi : kameranya bagus
+Stok      : 20
 
 --- DATA BARU ---
-Series    : Galaxy Z
-Harga     : 4000000
-Deskripsi : HP Bagus dan Canggih
-Stok      : 13
+Series    : Common 40 PRO
+Harga     : 6000000
+Deskripsi : Kamera 40mpx
+Stok      : 23
 ==================================================
 
